@@ -1,0 +1,396 @@
+{
+  "common": {
+    "language_changed": "语言已切换",
+    "title": "Google IAP 终极版",
+    "dialog": {
+      "confirm": "确认",
+      "message": "提示"
+    },
+    "provider": {
+      "google": "Google Play",
+      "apple": "苹果应用商店",
+      "huawei": "华为应用市场"
+    },
+    "environment": {
+      "production": "生产环境",
+      "sandbox": "沙盒环境",
+      "test": "测试环境"
+    }
+  },
+  "module2": {
+    "title": "计费服务控制区",
+    "description": "管理 Google Play 计费服务的初始化和环境配置。\n沙盒环境用于测试，生产环境用于正式发布。\n服务状态实时显示计费服务的连接情况。",
+    "label": {
+      "environment": "计费环境"
+    },
+    "btn": {
+      "init": "初始化服务",
+      "refresh": "刷新服务",
+      "close": "关闭计费服务"
+    },
+    "status": {
+      "not_initialized": "未初始化",
+      "initializing": "初始化中...",
+      "connected": "已连接"
+    },
+    "message": {
+      "not_initialized": "服务未初始化，请先初始化"
+    },
+    "log": {
+      "initializing": "正在初始化计费服务...",
+      "refreshing": "正在刷新计费服务...",
+      "closed": "计费服务已关闭"
+    }
+  },
+  "module3": {
+    "title": "SKU 管理区",
+    "description": "管理应用内购商品的 SKU 信息。\n支持增删改查、导入导出、批量操作。\n服务商筛选功能可快速定位特定平台的商品。\n支持 JSON 和 CSV 格式导入导出，方便批量编辑。",
+    "label": {
+      "provider_filter": "服务商筛选",
+      "sku_id": "SKU ID",
+      "sku_name": "商品名称",
+      "sku_price": "价格",
+      "provider": "服务商",
+      "sku_type": "商品类型"
+    },
+    "placeholder": {
+      "sku_id": "com.example.product",
+      "sku_name": "商品名称",
+      "sku_price": "0.99"
+    },
+    "tree": {
+      "sku_id": "SKU ID",
+      "sku_name": "商品名称",
+      "sku_price": "价格",
+      "sku_type": "类型",
+      "provider": "服务商",
+      "status": "状态",
+      "effect_time": "生效时间"
+    },
+    "type": {
+      "consumable": "消耗型",
+      "non_consumable": "非消耗型",
+      "subscription": "订阅型"
+    },
+    "btn": {
+      "add_sku": "添加",
+      "edit_sku": "编辑",
+      "update_sku": "更新",
+      "deactivate": "停用",
+      "activate": "启用",
+      "import_json": "导入 JSON",
+      "export_json": "导出 JSON",
+      "import_csv": "导入 CSV",
+      "export_csv": "导出 CSV",
+      "sync": "同步",
+      "add_new": "新增",
+      "delete": "删除",
+      "clear_list": "清空列表"
+    },
+    "checkbox": {
+      "show_inactive": "显示已停用",
+      "debug_mode": "调试模式"
+    },
+    "status": {
+      "active": "生效中",
+      "inactive": "已停用",
+      "pending": "待生效",
+      "effecting": "正在生效",
+      "pending_time": "{hours}小时{minutes}分后生效",
+      "pending_minutes": "{minutes}分钟后生效"
+    },
+    "effect_time": {
+      "immediate": "立即生效",
+      "hours_2": "2小时后生效",
+      "hours_24_48": "24-48小时后生效"
+    },
+    "message": {
+      "select_sku": "请先选择一个 SKU",
+      "empty_sku_id": "SKU ID 不能为空",
+      "empty_sku_name": "商品名称不能为空",
+      "duplicate_sku_id": "SKU ID 已存在",
+      "delete_disabled": "生产环境不允许物理删除，请使用停用功能",
+      "provider_not_configured": "服务商 {provider} 未配置，已自动开启调试模式",
+      "sync_disabled_in_debug": "调试模式下无法使用同步功能",
+      "no_provider_configured": "没有已配置的服务商，请先配置服务商信息"
+    },
+    "confirm": {
+      "delete_sku": "确定要删除选中的 SKU 吗？",
+      "clear_list": "确定要清空所有 SKU 吗？"
+    },
+    "dialog": {
+      "save_file": "保存文件",
+      "open_file": "打开文件"
+    },
+    "error": {
+      "file_open": "无法打开文件",
+      "file_save": "无法保存文件",
+      "json_parse": "JSON 解析失败",
+      "csv_empty": "CSV 文件为空或格式错误"
+    },
+    "log": {
+      "syncing": "正在同步 SKU...",
+      "sync_submitted": "已提交 {count} 个 SKU 进行审核",
+      "no_pending": "没有待生效的 SKU",
+      "sku_added": "SKU 已添加",
+      "sku_updated": "SKU 已更新",
+      "sku_pending": "SKU 修改已提交，等待审核生效",
+      "sku_deactivated": "SKU 已停用",
+      "sku_activated": "SKU 已启用",
+      "sku_reactivate_pending": "SKU 重新启用已提交，等待审核",
+      "import_json": "正在导入 JSON...",
+      "export_json": "正在导出 JSON...",
+      "import_csv": "正在导入 CSV...",
+      "export_csv": "正在导出 CSV...",
+      "import_success": "成功导入 {count} 个 SKU",
+      "export_success": "导出成功",
+      "sku_deleted": "SKU 已删除",
+      "list_cleared": "SKU 列表已清空",
+      "editing_sku": "正在编辑 SKU...",
+      "edit_cancelled": "编辑已取消",
+      "debug_enabled": "调试模式已启用",
+      "debug_disabled": "调试模式已关闭",
+      "provider_not_configured": "服务商 {provider} 未配置",
+      "sync_success": "SKU {sku_id} 同步成功，状态：{status}",
+      "auto_debug_mode": "服务商未配置，已自动开启调试模式"
+    }
+  },
+  "module4": {
+    "title": "测试模拟区",
+    "description": "模拟各种购买场景以测试应用响应。\n包括购买成功、库存不足、用户取消等情况。",
+    "btn": {
+      "success": "模拟成功",
+      "no_stock": "模拟无库存",
+      "cancel": "模拟取消",
+      "reset": "重置"
+    },
+    "checkbox": {
+      "debug_mode": "调试模式"
+    },
+    "log": {
+      "simulate_success": "模拟购买成功",
+      "simulate_no_stock": "模拟库存不足",
+      "simulate_cancel": "模拟取消购买",
+      "reset": "测试状态已重置"
+    }
+  },
+  "module5": {
+    "title": "日志输出区",
+    "description": "显示插件操作日志，包含时间戳和详细信息。\n支持清空和导出日志文件。",
+    "btn": {
+      "clear_log": "清空日志",
+      "export_log": "导出日志"
+    },
+    "log": {
+      "export": "日志导出中..."
+    }
+  },
+  "module6": {
+    "title": "服务端配置区",
+    "description": "配置各平台服务端验证参数。\n支持多账户管理，每个账户可独立配置服务商和环境。\n配置信息加密保存，确保安全性。",
+    "default_user": "默认用户",
+    "label": {
+      "account": "账户",
+      "provider": "服务商",
+      "environment": "环境"
+    },
+    "btn": {
+      "new_account": "新建",
+      "save_account": "保存",
+      "delete_account": "删除",
+      "rename_account": "重命名",
+      "select": "选择",
+      "save_config": "保存配置",
+      "load_config": "加载配置",
+      "test_connection": "测试连接"
+    },
+    "google": {
+      "label": {
+        "key_file": "密钥文件",
+        "package": "包名"
+      },
+      "placeholder": {
+        "package": "com.example.app"
+      }
+    },
+    "apple": {
+      "label": {
+        "issuer_id": "发行者 ID",
+        "key_id": "密钥 ID",
+        "bundle_id": "Bundle ID",
+        "key_file": "密钥文件"
+      }
+    },
+    "huawei": {
+      "label": {
+        "api_key": "API 密钥",
+        "app_id": "应用 ID"
+      }
+    },
+    "status": {
+      "ready": "就绪",
+      "testing": "测试中...",
+      "connected": "连接成功"
+    },
+    "message": {
+      "empty_field": "字段不能为空",
+      "no_account": "请先选择账户",
+      "empty_name": "账户名称不能为空",
+      "account_exists": "账户名称已存在",
+      "empty_key_file": "请选择密钥文件",
+      "empty_package": "包名不能为空",
+      "empty_issuer_id": "发行者 ID 不能为空",
+      "empty_key_id": "密钥 ID 不能为空",
+      "empty_bundle_id": "Bundle ID 不能为空",
+      "empty_api_key": "API 密钥不能为空",
+      "empty_app_id": "应用 ID 不能为空"
+    },
+    "dialog": {
+      "new_account": "请输入新账户名称：",
+      "rename_account": "请输入新的账户名称："
+    },
+    "confirm": {
+      "delete_account": "确定要删除当前账户吗？"
+    },
+    "log": {
+      "account_switched": "已切换账户：",
+      "account_created": "已创建账户：",
+      "config_saved": "配置已保存",
+      "config_loaded": "配置已加载",
+      "select_key": "请选择密钥文件...",
+      "testing_connection": "正在测试连接...",
+      "account_deleted": "已删除账户：",
+      "account_renamed": "已重命名账户："
+    }
+  },
+  "module7": {
+    "title": "验单测试工具区",
+    "description": "模拟向各平台发起验单请求，测试服务端验证逻辑。\n选择服务商后输入对应参数，查看模拟响应数据。",
+    "label": {
+      "provider": "服务商",
+      "response": "响应结果："
+    },
+    "google": {
+      "label": {
+        "product_id": "商品 ID",
+        "token": "购买令牌",
+        "order_id": "订单 ID"
+      }
+    },
+    "apple": {
+      "label": {
+        "product_id": "商品 ID",
+        "transaction_id": "交易 ID",
+        "original_tx_id": "原始交易 ID"
+      }
+    },
+    "huawei": {
+      "label": {
+        "product_id": "商品 ID",
+        "token": "购买令牌",
+        "purchase_data": "购买数据"
+      }
+    },
+    "btn": {
+      "verify": "验单",
+      "clear": "清除"
+    },
+    "log": {
+      "verify_completed": "验单完成"
+    }
+  },
+  "module8": {
+    "title": "平台数据分析报告",
+    "description": "从各平台拉取应用表现、财务、订阅、崩溃、评分等数据分析报告。",
+    "label": {
+      "platform": "平台",
+      "report_type": "报告类型",
+      "date_range": "日期范围",
+      "start_date": "开始日期",
+      "end_date": "结束日期",
+      "preview": "数据预览"
+    },
+    "btn": {
+      "test_connection": "测试连接",
+      "query": "查询报告",
+      "download": "下载",
+      "open_folder": "打开文件夹",
+      "browse": "浏览..."
+    },
+    "apple": {
+      "label": {
+        "issuer_id": "Issuer ID",
+        "key_id": "Key ID",
+        "key_file": "P8 密钥文件",
+        "vendor_number": "厂商编号"
+      }
+    },
+    "google": {
+      "label": {
+        "key_file": "服务账号密钥",
+        "bucket_id": "存储桶 ID",
+        "package_name": "应用包名"
+      }
+    },
+    "huawei": {
+      "label": {
+        "client_id": "Client ID",
+        "app_id": "App ID",
+        "team_id": "Team ID"
+      }
+    },
+    "report_type": {
+      "sales": "销售报告",
+      "financial": "财务报告",
+      "analytics": "应用分析",
+      "subscription": "订阅报告",
+      "estimated_sales": "预估销售",
+      "earnings": "收入报告",
+      "crashes": "崩溃报告",
+      "installs": "安装报告",
+      "ratings": "评分报告",
+      "user_analysis": "用户分析",
+      "distribution_analysis": "分发分析",
+      "fa_distribution": "元服务分发"
+    },
+    "date_range": {
+      "yesterday": "昨日",
+      "last_7_days": "过去 7 天",
+      "last_30_days": "过去 30 天",
+      "this_month": "本月",
+      "custom": "自定义"
+    },
+    "tree": {
+      "file_name": "文件名",
+      "date": "日期",
+      "type": "类型",
+      "size": "大小"
+    },
+    "status": {
+      "ready": "就绪",
+      "testing": "正在测试连接...",
+      "connected": "连接成功",
+      "connection_failed": "连接失败",
+      "querying": "正在查询报告...",
+      "query_complete": "查询完成",
+      "loading_preview": "正在加载预览...",
+      "preview_ready": "预览就绪",
+      "saved": "已保存"
+    },
+    "message": {
+      "config_incomplete": "请先完成认证配置",
+      "no_report_selected": "请先选择一个报告"
+    },
+    "log": {
+      "platform_changed": "已切换到 {platform}",
+      "type_changed": "已选择报告类型: {type}",
+      "testing_connection": "正在测试 {platform} 连接...",
+      "connection_success": "连接测试成功",
+      "connection_failed": "连接测试失败，请检查配置",
+      "querying_reports": "正在查询报告...",
+      "reports_found": "找到 {count} 个报告",
+      "loading_preview": "正在加载预览: {file}",
+      "report_saved": "报告已保存到: {path}"
+    }
+  }
+}

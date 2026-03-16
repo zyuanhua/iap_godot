@@ -1,0 +1,16 @@
+{
+  "current_account": "",
+  "language": "zh",
+  "server_configs": {
+
+  },
+  "sku_list": [
+    {
+      "active": true,
+      "provider": "Google Play",
+      "sku_id": "dd1",
+      "sku_name": "d11",
+      "sku_price": "1"
+    }
+  ]
+}

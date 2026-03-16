@@ -1,0 +1,58 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Build artifacts
+bin/
+dist/
+*.zip
+*.tar.gz
+
+# Godot export files
+export_presets.cfg
+*.import
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*.backup
+
+# User configuration files
+user://*
+
+# Plugin development files
+*.gd.uid
+*.tscn.uid
+
+# Backup files
+*.backup*
+*.old
+
+# Test files
+test_results.xml
+coverage/
+
+# Package files
+*.pck
+*.exe
+
+# Documentation build files
+_build/
+_site/

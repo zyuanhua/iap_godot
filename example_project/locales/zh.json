@@ -1,0 +1,40 @@
+{
+	"language_name": "中文",
+	
+	# UI 元素
+	"title": "Google IAP 完整示例",
+	"coins": "金币",
+	"vip": "VIP",
+	"vip_not_active": "未开通",
+	"no_ads": "无广告",
+	"yes": "是",
+	"no": "否",
+	"shop_title": "商品商店",
+	
+	# 商品按钮
+	"buy_100_coins": "购买 100 金币",
+	"buy_500_coins": "购买 500 金币",
+	"buy_vip_month": "购买 30 天 VIP",
+	"buy_vip_year": "购买 1 年 VIP",
+	"buy_no_ads": "购买 永久无广告",
+	"buy_sword": "购买 传说之剑",
+	
+	# 操作按钮
+	"reset_data": "重置数据",
+	
+	# 状态消息
+	"data_reset": "玩家数据已重置",
+	"purchase_success": "购买成功",
+	"purchase_failed": "购买失败",
+	"purchase_cancelled": "购买已取消",
+	"purchase_pending": "支付处理中，请在 Google Play 中完成支付",
+	"item_granted": "道具发放成功",
+	
+	# 日志消息
+	"log_buying_product": "购买商品",
+	"log_purchase_success": "购买成功",
+	"log_purchase_failed": "购买失败",
+	"log_purchase_cancelled": "购买已取消",
+	"log_purchase_pending": "购买待处理",
+	"log_item_granted": "道具发放成功"
+}

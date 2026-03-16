@@ -1,0 +1,1246 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8x7m3k9j4n5p6q"]
+
+[ext_resource type="Script" path="res://addons/google_iap/GoogleIAPConfigPanel.gd" id="1_abc123"]
+[ext_resource type="Script" path="res://addons/google_iap/ResizableTree.gd" id="ResizableTree_gd"]
+
+[node name="GoogleIAPConfigPanel" type="ScrollContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abc123")
+
+[node name="MainVBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderRow" type="HBoxContainer" parent="MainVBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MainVBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+horizontal_alignment = 1
+
+[node name="LanguageSelector" type="OptionButton" parent="MainVBox/HeaderRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+unique_name_in_owner = true
+
+[node name="Sep0" type="HSeparator" parent="MainVBox"]
+layout_mode = 2
+
+[node name="Module2_Billing" type="VBoxContainer" parent="MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleRow" type="HBoxContainer" parent="MainVBox/Module2_Billing"]
+layout_mode = 2
+
+[node name="Title2" type="Label" parent="MainVBox/Module2_Billing/TitleRow"]
+layout_mode = 2
+text = ""
+unique_name_in_owner = true
+
+[node name="Module2Info" type="Label" parent="MainVBox/Module2_Billing/TitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+mouse_filter = 1
+unique_name_in_owner = true
+
+[node name="Row1" type="HBoxContainer" parent="MainVBox/Module2_Billing"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label1" type="Label" parent="MainVBox/Module2_Billing/Row1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="EnvOption" type="OptionButton" parent="MainVBox/Module2_Billing/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="Row2" type="HBoxContainer" parent="MainVBox/Module2_Billing"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnInitBilling" type="Button" parent="MainVBox/Module2_Billing/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnRefreshBilling" type="Button" parent="MainVBox/Module2_Billing/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnCloseBilling" type="Button" parent="MainVBox/Module2_Billing/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="ServiceStatusLabel" type="Label" parent="MainVBox/Module2_Billing/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+unique_name_in_owner = true
+
+[node name="Sep2" type="HSeparator" parent="MainVBox"]
+layout_mode = 2
+
+[node name="Module3_SKU" type="VBoxContainer" parent="MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleRow" type="HBoxContainer" parent="MainVBox/Module3_SKU"]
+layout_mode = 2
+
+[node name="Title3" type="Label" parent="MainVBox/Module3_SKU/TitleRow"]
+layout_mode = 2
+text = ""
+unique_name_in_owner = true
+
+[node name="Module3Info" type="Label" parent="MainVBox/Module3_SKU/TitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+mouse_filter = 1
+unique_name_in_owner = true
+
+[node name="FilterRow" type="HBoxContainer" parent="MainVBox/Module3_SKU"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="FilterLabel" type="Label" parent="MainVBox/Module3_SKU/FilterRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="SkuProviderFilter" type="OptionButton" parent="MainVBox/Module3_SKU/FilterRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+unique_name_in_owner = true
+
+[node name="ShowInactiveCheckbox" type="CheckBox" parent="MainVBox/Module3_SKU/FilterRow"]
+layout_mode = 2
+text = ""
+button_pressed = true
+unique_name_in_owner = true
+
+[node name="DebugModeCheckbox" type="CheckBox" parent="MainVBox/Module3_SKU/FilterRow"]
+layout_mode = 2
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnManualSync" type="Button" parent="MainVBox/Module3_SKU/FilterRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="InputRow1" type="HBoxContainer" parent="MainVBox/Module3_SKU"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label1" type="Label" parent="MainVBox/Module3_SKU/InputRow1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="SkuIdEdit" type="LineEdit" parent="MainVBox/Module3_SKU/InputRow1"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+placeholder_text = ""
+unique_name_in_owner = true
+
+[node name="InputRow2" type="HBoxContainer" parent="MainVBox/Module3_SKU"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label2" type="Label" parent="MainVBox/Module3_SKU/InputRow2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="SkuNameEdit" type="LineEdit" parent="MainVBox/Module3_SKU/InputRow2"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+placeholder_text = ""
+unique_name_in_owner = true
+
+[node name="InputRow3" type="HBoxContainer" parent="MainVBox/Module3_SKU"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label3" type="Label" parent="MainVBox/Module3_SKU/InputRow3"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="SkuPriceEdit" type="LineEdit" parent="MainVBox/Module3_SKU/InputRow3"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+placeholder_text = ""
+unique_name_in_owner = true
+
+[node name="InputRow4" type="HBoxContainer" parent="MainVBox/Module3_SKU"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label4" type="Label" parent="MainVBox/Module3_SKU/InputRow4"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="SkuProviderOption" type="OptionButton" parent="MainVBox/Module3_SKU/InputRow4"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="BtnRow1" type="HBoxContainer" parent="MainVBox/Module3_SKU"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnAddSku" type="Button" parent="MainVBox/Module3_SKU/BtnRow1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnEditSku" type="Button" parent="MainVBox/Module3_SKU/BtnRow1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+disabled = true
+unique_name_in_owner = true
+
+[node name="BtnUpdateSku" type="Button" parent="MainVBox/Module3_SKU/BtnRow1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+disabled = true
+unique_name_in_owner = true
+
+[node name="BtnRow2" type="HBoxContainer" parent="MainVBox/Module3_SKU"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnDeactivateSku" type="Button" parent="MainVBox/Module3_SKU/BtnRow2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnActivateSku" type="Button" parent="MainVBox/Module3_SKU/BtnRow2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnRow3" type="HBoxContainer" parent="MainVBox/Module3_SKU"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnImportJson" type="Button" parent="MainVBox/Module3_SKU/BtnRow3"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnExportJson" type="Button" parent="MainVBox/Module3_SKU/BtnRow3"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnImportCsv" type="Button" parent="MainVBox/Module3_SKU/BtnRow3"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnExportCsv" type="Button" parent="MainVBox/Module3_SKU/BtnRow3"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnRow4" type="HBoxContainer" parent="MainVBox/Module3_SKU"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnAddNewSku" type="Button" parent="MainVBox/Module3_SKU/BtnRow4"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnDeleteSku" type="Button" parent="MainVBox/Module3_SKU/BtnRow4"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnClearList" type="Button" parent="MainVBox/Module3_SKU/BtnRow4"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="SkuTree" type="Tree" parent="MainVBox/Module3_SKU"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 180)
+unique_name_in_owner = true
+script = ExtResource("ResizableTree_gd")
+columns = 5
+column_titles_visible = true
+
+[node name="StatusTimer" type="Timer" parent="MainVBox/Module3_SKU"]
+wait_time = 60.0
+autostart = true
+unique_name_in_owner = true
+
+[node name="Sep3" type="HSeparator" parent="MainVBox"]
+layout_mode = 2
+
+[node name="Module4_Simulation" type="VBoxContainer" parent="MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleRow" type="HBoxContainer" parent="MainVBox/Module4_Simulation"]
+layout_mode = 2
+
+[node name="Title4" type="Label" parent="MainVBox/Module4_Simulation/TitleRow"]
+layout_mode = 2
+text = ""
+unique_name_in_owner = true
+
+[node name="Module4Info" type="Label" parent="MainVBox/Module4_Simulation/TitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+mouse_filter = 1
+unique_name_in_owner = true
+
+[node name="BtnRow1" type="HBoxContainer" parent="MainVBox/Module4_Simulation"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnSimulateSuccess" type="Button" parent="MainVBox/Module4_Simulation/BtnRow1"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnSimulateNoStock" type="Button" parent="MainVBox/Module4_Simulation/BtnRow1"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnSimulateCancel" type="Button" parent="MainVBox/Module4_Simulation/BtnRow1"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnRow2" type="HBoxContainer" parent="MainVBox/Module4_Simulation"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnResetTest" type="Button" parent="MainVBox/Module4_Simulation/BtnRow2"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="DebugCheckbox" type="CheckBox" parent="MainVBox/Module4_Simulation/BtnRow2"]
+layout_mode = 2
+text = ""
+unique_name_in_owner = true
+
+[node name="Sep4" type="HSeparator" parent="MainVBox"]
+layout_mode = 2
+
+[node name="Module5_Log" type="VBoxContainer" parent="MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleRow" type="HBoxContainer" parent="MainVBox/Module5_Log"]
+layout_mode = 2
+
+[node name="Title5" type="Label" parent="MainVBox/Module5_Log/TitleRow"]
+layout_mode = 2
+text = ""
+unique_name_in_owner = true
+
+[node name="Module5Info" type="Label" parent="MainVBox/Module5_Log/TitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+mouse_filter = 1
+unique_name_in_owner = true
+
+[node name="LogText" type="TextEdit" parent="MainVBox/Module5_Log"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 150)
+editable = false
+unique_name_in_owner = true
+
+[node name="BtnRow" type="HBoxContainer" parent="MainVBox/Module5_Log"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnClearLog" type="Button" parent="MainVBox/Module5_Log/BtnRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnExportLog" type="Button" parent="MainVBox/Module5_Log/BtnRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="Sep5" type="HSeparator" parent="MainVBox"]
+layout_mode = 2
+
+[node name="Module6_ServerConfig" type="VBoxContainer" parent="MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleRow" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig"]
+layout_mode = 2
+
+[node name="Title6" type="Label" parent="MainVBox/Module6_ServerConfig/TitleRow"]
+layout_mode = 2
+text = ""
+unique_name_in_owner = true
+
+[node name="Module6Info" type="Label" parent="MainVBox/Module6_ServerConfig/TitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+mouse_filter = 1
+unique_name_in_owner = true
+
+[node name="AccountRow" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AccountLabel" type="Label" parent="MainVBox/Module6_ServerConfig/AccountRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="AccountSelector" type="OptionButton" parent="MainVBox/Module6_ServerConfig/AccountRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(150, 30)
+unique_name_in_owner = true
+
+[node name="BtnNewAccount" type="Button" parent="MainVBox/Module6_ServerConfig/AccountRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnSaveAccount" type="Button" parent="MainVBox/Module6_ServerConfig/AccountRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnDeleteAccount" type="Button" parent="MainVBox/Module6_ServerConfig/AccountRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnRenameAccount" type="Button" parent="MainVBox/Module6_ServerConfig/AccountRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="ConfigRow1" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label1" type="Label" parent="MainVBox/Module6_ServerConfig/ConfigRow1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="ServerProvider" type="OptionButton" parent="MainVBox/Module6_ServerConfig/ConfigRow1"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="ConfigRow2" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label2" type="Label" parent="MainVBox/Module6_ServerConfig/ConfigRow2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="ServerEnv" type="OptionButton" parent="MainVBox/Module6_ServerConfig/ConfigRow2"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="GoogleConfigContainer" type="VBoxContainer" parent="MainVBox/Module6_ServerConfig"]
+layout_mode = 2
+theme_override_constants/separation = 8
+unique_name_in_owner = true
+
+[node name="Row1" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig/GoogleConfigContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label1" type="Label" parent="MainVBox/Module6_ServerConfig/GoogleConfigContainer/Row1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="GoogleKeyPath" type="LineEdit" parent="MainVBox/Module6_ServerConfig/GoogleConfigContainer/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+editable = false
+unique_name_in_owner = true
+
+[node name="BtnSelectGoogleKey" type="Button" parent="MainVBox/Module6_ServerConfig/GoogleConfigContainer/Row1"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="Row2" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig/GoogleConfigContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label2" type="Label" parent="MainVBox/Module6_ServerConfig/GoogleConfigContainer/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="GooglePackageName" type="LineEdit" parent="MainVBox/Module6_ServerConfig/GoogleConfigContainer/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+placeholder_text = ""
+unique_name_in_owner = true
+
+[node name="AppleConfigContainer" type="VBoxContainer" parent="MainVBox/Module6_ServerConfig"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+unique_name_in_owner = true
+
+[node name="Row1" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label1" type="Label" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer/Row1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="AppleIssuerId" type="LineEdit" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="Row2" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label2" type="Label" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="AppleKeyId" type="LineEdit" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="Row3" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label3" type="Label" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer/Row3"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="AppleBundleId" type="LineEdit" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer/Row3"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="Row4" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label4" type="Label" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer/Row4"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="AppleKeyPath" type="LineEdit" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer/Row4"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+editable = false
+unique_name_in_owner = true
+
+[node name="BtnSelectAppleKey" type="Button" parent="MainVBox/Module6_ServerConfig/AppleConfigContainer/Row4"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="HuaweiConfigContainer" type="VBoxContainer" parent="MainVBox/Module6_ServerConfig"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+unique_name_in_owner = true
+
+[node name="Row1" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig/HuaweiConfigContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label1" type="Label" parent="MainVBox/Module6_ServerConfig/HuaweiConfigContainer/Row1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="HuaweiApiKey" type="LineEdit" parent="MainVBox/Module6_ServerConfig/HuaweiConfigContainer/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="Row2" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig/HuaweiConfigContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label2" type="Label" parent="MainVBox/Module6_ServerConfig/HuaweiConfigContainer/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="HuaweiAppId" type="LineEdit" parent="MainVBox/Module6_ServerConfig/HuaweiConfigContainer/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="ConfigBtnRow" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnSaveConfig" type="Button" parent="MainVBox/Module6_ServerConfig/ConfigBtnRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnLoadConfig" type="Button" parent="MainVBox/Module6_ServerConfig/ConfigBtnRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnTestConnection" type="Button" parent="MainVBox/Module6_ServerConfig/ConfigBtnRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="ConfigStatusRow" type="HBoxContainer" parent="MainVBox/Module6_ServerConfig"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ConfigStatusLabel" type="Label" parent="MainVBox/Module6_ServerConfig/ConfigStatusRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+unique_name_in_owner = true
+
+[node name="InputDialog" type="AcceptDialog" parent="MainVBox/Module6_ServerConfig"]
+title = "Input"
+unique_name_in_owner = true
+
+[node name="InputField" type="LineEdit" parent="MainVBox/Module6_ServerConfig/InputDialog"]
+layout_mode = 2
+unique_name_in_owner = true
+
+[node name="ConfirmDialog" type="ConfirmationDialog" parent="MainVBox/Module6_ServerConfig"]
+title = "Confirm"
+dialog_text = ""
+unique_name_in_owner = true
+
+[node name="MessageDialog" type="AcceptDialog" parent="MainVBox/Module6_ServerConfig"]
+title = "Message"
+unique_name_in_owner = true
+
+[node name="Sep6" type="HSeparator" parent="MainVBox"]
+layout_mode = 2
+
+[node name="Module7_Verification" type="VBoxContainer" parent="MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleRow" type="HBoxContainer" parent="MainVBox/Module7_Verification"]
+layout_mode = 2
+
+[node name="Title7" type="Label" parent="MainVBox/Module7_Verification/TitleRow"]
+layout_mode = 2
+text = ""
+unique_name_in_owner = true
+
+[node name="Module7Info" type="Label" parent="MainVBox/Module7_Verification/TitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+mouse_filter = 1
+unique_name_in_owner = true
+
+[node name="ProviderRow" type="HBoxContainer" parent="MainVBox/Module7_Verification"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ProviderLabel" type="Label" parent="MainVBox/Module7_Verification/ProviderRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="VerifyProviderOption" type="OptionButton" parent="MainVBox/Module7_Verification/ProviderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="TestGoogleContainer" type="VBoxContainer" parent="MainVBox/Module7_Verification"]
+layout_mode = 2
+theme_override_constants/separation = 8
+unique_name_in_owner = true
+
+[node name="Row1" type="HBoxContainer" parent="MainVBox/Module7_Verification/TestGoogleContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label1" type="Label" parent="MainVBox/Module7_Verification/TestGoogleContainer/Row1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="GoogleProductIdEdit" type="LineEdit" parent="MainVBox/Module7_Verification/TestGoogleContainer/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="Row2" type="HBoxContainer" parent="MainVBox/Module7_Verification/TestGoogleContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label2" type="Label" parent="MainVBox/Module7_Verification/TestGoogleContainer/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="GoogleTokenEdit" type="LineEdit" parent="MainVBox/Module7_Verification/TestGoogleContainer/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="Row3" type="HBoxContainer" parent="MainVBox/Module7_Verification/TestGoogleContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label3" type="Label" parent="MainVBox/Module7_Verification/TestGoogleContainer/Row3"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="GoogleOrderIdEdit" type="LineEdit" parent="MainVBox/Module7_Verification/TestGoogleContainer/Row3"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="TestAppleContainer" type="VBoxContainer" parent="MainVBox/Module7_Verification"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+unique_name_in_owner = true
+
+[node name="Row1" type="HBoxContainer" parent="MainVBox/Module7_Verification/TestAppleContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label1" type="Label" parent="MainVBox/Module7_Verification/TestAppleContainer/Row1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="AppleProductIdEdit" type="LineEdit" parent="MainVBox/Module7_Verification/TestAppleContainer/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="Row2" type="HBoxContainer" parent="MainVBox/Module7_Verification/TestAppleContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label2" type="Label" parent="MainVBox/Module7_Verification/TestAppleContainer/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="AppleTransactionIdEdit" type="LineEdit" parent="MainVBox/Module7_Verification/TestAppleContainer/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="Row3" type="HBoxContainer" parent="MainVBox/Module7_Verification/TestAppleContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label3" type="Label" parent="MainVBox/Module7_Verification/TestAppleContainer/Row3"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="AppleOriginalTxIdEdit" type="LineEdit" parent="MainVBox/Module7_Verification/TestAppleContainer/Row3"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="TestHuaweiContainer" type="VBoxContainer" parent="MainVBox/Module7_Verification"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+unique_name_in_owner = true
+
+[node name="Row1" type="HBoxContainer" parent="MainVBox/Module7_Verification/TestHuaweiContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label1" type="Label" parent="MainVBox/Module7_Verification/TestHuaweiContainer/Row1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="HuaweiProductIdEdit" type="LineEdit" parent="MainVBox/Module7_Verification/TestHuaweiContainer/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="Row2" type="HBoxContainer" parent="MainVBox/Module7_Verification/TestHuaweiContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label2" type="Label" parent="MainVBox/Module7_Verification/TestHuaweiContainer/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="HuaweiTokenEdit" type="LineEdit" parent="MainVBox/Module7_Verification/TestHuaweiContainer/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="Row3" type="HBoxContainer" parent="MainVBox/Module7_Verification/TestHuaweiContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label3" type="Label" parent="MainVBox/Module7_Verification/TestHuaweiContainer/Row3"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="HuaweiPurchaseDataEdit" type="LineEdit" parent="MainVBox/Module7_Verification/TestHuaweiContainer/Row3"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 30)
+unique_name_in_owner = true
+
+[node name="BtnRow" type="HBoxContainer" parent="MainVBox/Module7_Verification"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnSimulateVerify" type="Button" parent="MainVBox/Module7_Verification/BtnRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnClearResponse" type="Button" parent="MainVBox/Module7_Verification/BtnRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="ResponseLabel" type="Label" parent="MainVBox/Module7_Verification"]
+layout_mode = 2
+text = ""
+unique_name_in_owner = true
+
+[node name="ResponseText" type="TextEdit" parent="MainVBox/Module7_Verification"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 120)
+editable = false
+unique_name_in_owner = true
+
+[node name="KeyFileDialog" type="FileDialog" parent="."]
+title = "Select Key File"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.json ; JSON Files", "*.p8 ; P8 Files", "*.pem ; PEM Files")
+use_native_dialog = true
+
+[node name="Sep7" type="HSeparator" parent="MainVBox"]
+layout_mode = 2
+
+[node name="Module8_Analytics" type="VBoxContainer" parent="MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleRow" type="HBoxContainer" parent="MainVBox/Module8_Analytics"]
+layout_mode = 2
+
+[node name="Title8" type="Label" parent="MainVBox/Module8_Analytics/TitleRow"]
+layout_mode = 2
+text = ""
+unique_name_in_owner = true
+
+[node name="Module8Info" type="Label" parent="MainVBox/Module8_Analytics/TitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+autowrap_mode = 2
+unique_name_in_owner = true
+
+[node name="PlatformRow" type="HBoxContainer" parent="MainVBox/Module8_Analytics"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlatformLabel" type="Label" parent="MainVBox/Module8_Analytics/PlatformRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="ReportPlatformSelector" type="OptionButton" parent="MainVBox/Module8_Analytics/PlatformRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="BtnTestReportConnection" type="Button" parent="MainVBox/Module8_Analytics/PlatformRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="AppleReportContainer" type="VBoxContainer" parent="MainVBox/Module8_Analytics"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Row1" type="HBoxContainer" parent="MainVBox/Module8_Analytics/AppleReportContainer"]
+layout_mode = 2
+
+[node name="Label1" type="Label" parent="MainVBox/Module8_Analytics/AppleReportContainer/Row1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="AppleReportIssuerId" type="LineEdit" parent="MainVBox/Module8_Analytics/AppleReportContainer/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="Row2" type="HBoxContainer" parent="MainVBox/Module8_Analytics/AppleReportContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MainVBox/Module8_Analytics/AppleReportContainer/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="AppleReportKeyId" type="LineEdit" parent="MainVBox/Module8_Analytics/AppleReportContainer/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="Row3" type="HBoxContainer" parent="MainVBox/Module8_Analytics/AppleReportContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="MainVBox/Module8_Analytics/AppleReportContainer/Row3"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="AppleReportKeyPath" type="LineEdit" parent="MainVBox/Module8_Analytics/AppleReportContainer/Row3"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="BtnSelectAppleReportKey" type="Button" parent="MainVBox/Module8_Analytics/AppleReportContainer/Row3"]
+layout_mode = 2
+text = ""
+
+[node name="Row4" type="HBoxContainer" parent="MainVBox/Module8_Analytics/AppleReportContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="MainVBox/Module8_Analytics/AppleReportContainer/Row4"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="AppleVendorNumber" type="LineEdit" parent="MainVBox/Module8_Analytics/AppleReportContainer/Row4"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Vendor Number (Optional)"
+unique_name_in_owner = true
+
+[node name="GoogleReportContainer" type="VBoxContainer" parent="MainVBox/Module8_Analytics"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Row1" type="HBoxContainer" parent="MainVBox/Module8_Analytics/GoogleReportContainer"]
+layout_mode = 2
+
+[node name="Label1" type="Label" parent="MainVBox/Module8_Analytics/GoogleReportContainer/Row1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="GoogleReportKeyPath" type="LineEdit" parent="MainVBox/Module8_Analytics/GoogleReportContainer/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="BtnSelectGoogleReportKey" type="Button" parent="MainVBox/Module8_Analytics/GoogleReportContainer/Row1"]
+layout_mode = 2
+text = ""
+
+[node name="Row2" type="HBoxContainer" parent="MainVBox/Module8_Analytics/GoogleReportContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MainVBox/Module8_Analytics/GoogleReportContainer/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="GoogleBucketId" type="LineEdit" parent="MainVBox/Module8_Analytics/GoogleReportContainer/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "pubsite_prod_XXXXXXXXXX"
+unique_name_in_owner = true
+
+[node name="Row3" type="HBoxContainer" parent="MainVBox/Module8_Analytics/GoogleReportContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="MainVBox/Module8_Analytics/GoogleReportContainer/Row3"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="GooglePackageNameEdit" type="LineEdit" parent="MainVBox/Module8_Analytics/GoogleReportContainer/Row3"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "com.example.app"
+unique_name_in_owner = true
+
+[node name="HuaweiReportContainer" type="VBoxContainer" parent="MainVBox/Module8_Analytics"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Row1" type="HBoxContainer" parent="MainVBox/Module8_Analytics/HuaweiReportContainer"]
+layout_mode = 2
+
+[node name="Label1" type="Label" parent="MainVBox/Module8_Analytics/HuaweiReportContainer/Row1"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="HuaweiReportClientId" type="LineEdit" parent="MainVBox/Module8_Analytics/HuaweiReportContainer/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="Row2" type="HBoxContainer" parent="MainVBox/Module8_Analytics/HuaweiReportContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MainVBox/Module8_Analytics/HuaweiReportContainer/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="HuaweiReportAppId" type="LineEdit" parent="MainVBox/Module8_Analytics/HuaweiReportContainer/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="Row3" type="HBoxContainer" parent="MainVBox/Module8_Analytics/HuaweiReportContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="MainVBox/Module8_Analytics/HuaweiReportContainer/Row3"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="HuaweiReportTeamId" type="LineEdit" parent="MainVBox/Module8_Analytics/HuaweiReportContainer/Row3"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="QueryRow" type="HBoxContainer" parent="MainVBox/Module8_Analytics"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ReportTypeLabel" type="Label" parent="MainVBox/Module8_Analytics/QueryRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="ReportTypeSelector" type="OptionButton" parent="MainVBox/Module8_Analytics/QueryRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="DateRangeRow" type="HBoxContainer" parent="MainVBox/Module8_Analytics"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DateRangeLabel" type="Label" parent="MainVBox/Module8_Analytics/DateRangeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = ""
+
+[node name="DateRangeSelector" type="OptionButton" parent="MainVBox/Module8_Analytics/DateRangeRow"]
+layout_mode = 2
+unique_name_in_owner = true
+
+[node name="StartDateLabel" type="Label" parent="MainVBox/Module8_Analytics/DateRangeRow"]
+layout_mode = 2
+text = ""
+
+[node name="StartDatePicker" type="LineEdit" parent="MainVBox/Module8_Analytics/DateRangeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 0)
+placeholder_text = "YYYY-MM-DD"
+unique_name_in_owner = true
+
+[node name="EndDateLabel" type="Label" parent="MainVBox/Module8_Analytics/DateRangeRow"]
+layout_mode = 2
+text = ""
+
+[node name="EndDatePicker" type="LineEdit" parent="MainVBox/Module8_Analytics/DateRangeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 0)
+placeholder_text = "YYYY-MM-DD"
+unique_name_in_owner = true
+
+[node name="BtnQueryReports" type="Button" parent="MainVBox/Module8_Analytics/DateRangeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="ReportListRow" type="HBoxContainer" parent="MainVBox/Module8_Analytics"]
+layout_mode = 2
+
+[node name="ReportTree" type="Tree" parent="MainVBox/Module8_Analytics/ReportListRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 150)
+columns = 4
+column_titles_visible = true
+unique_name_in_owner = true
+
+[node name="ReportPreviewRow" type="VBoxContainer" parent="MainVBox/Module8_Analytics"]
+layout_mode = 2
+
+[node name="PreviewLabel" type="Label" parent="MainVBox/Module8_Analytics/ReportPreviewRow"]
+layout_mode = 2
+text = ""
+
+[node name="ReportPreviewTable" type="Tree" parent="MainVBox/Module8_Analytics/ReportPreviewRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 200)
+columns = 5
+column_titles_visible = true
+unique_name_in_owner = true
+
+[node name="ReportBtnRow" type="HBoxContainer" parent="MainVBox/Module8_Analytics"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnDownloadReport" type="Button" parent="MainVBox/Module8_Analytics/ReportBtnRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="BtnOpenReportFolder" type="Button" parent="MainVBox/Module8_Analytics/ReportBtnRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 30)
+text = ""
+unique_name_in_owner = true
+
+[node name="ReportProgressBar" type="ProgressBar" parent="MainVBox/Module8_Analytics"]
+layout_mode = 2
+value = 0.0
+unique_name_in_owner = true
+
+[node name="ReportStatusLabel" type="Label" parent="MainVBox/Module8_Analytics"]
+layout_mode = 2
+text = ""
+unique_name_in_owner = true
+
+[node name="ReportFileDialog" type="FileDialog" parent="."]
+title = "Save Report"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.csv ; CSV Files", "*.json ; JSON Files")
+use_native_dialog = true

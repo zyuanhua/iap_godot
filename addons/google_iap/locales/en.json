@@ -1,0 +1,396 @@
+{
+  "common": {
+    "language_changed": "Language Changed",
+    "title": "Google IAP Ultimate",
+    "dialog": {
+      "confirm": "Confirm",
+      "message": "Message"
+    },
+    "provider": {
+      "google": "Google Play",
+      "apple": "Apple App Store",
+      "huawei": "Huawei AppGallery"
+    },
+    "environment": {
+      "production": "Production",
+      "sandbox": "Sandbox",
+      "test": "Test"
+    }
+  },
+  "module2": {
+    "title": "Billing Service Control",
+    "description": "Manage Google Play billing service initialization and environment.\nSandbox for testing, production for release.\nService status shows real-time connection status.",
+    "label": {
+      "environment": "Billing Environment"
+    },
+    "btn": {
+      "init": "Init Service",
+      "refresh": "Refresh Service",
+      "close": "Close Billing"
+    },
+    "status": {
+      "not_initialized": "Not Initialized",
+      "initializing": "Initializing...",
+      "connected": "Connected"
+    },
+    "message": {
+      "not_initialized": "Service not initialized, please init first"
+    },
+    "log": {
+      "initializing": "Initializing billing service...",
+      "refreshing": "Refreshing billing service...",
+      "closed": "Billing service closed"
+    }
+  },
+  "module3": {
+    "title": "SKU Management",
+    "description": "Manage in-app purchase SKU information.\nSupport add, edit, delete, import/export operations.\nProvider filter helps locate platform-specific products.\nSupport JSON and CSV import/export for batch editing.",
+    "label": {
+      "provider_filter": "Provider Filter",
+      "sku_id": "SKU ID",
+      "sku_name": "Product Name",
+      "sku_price": "Price",
+      "provider": "Provider",
+      "sku_type": "Product Type"
+    },
+    "placeholder": {
+      "sku_id": "com.example.product",
+      "sku_name": "Product Name",
+      "sku_price": "0.99"
+    },
+    "tree": {
+      "sku_id": "SKU ID",
+      "sku_name": "Product Name",
+      "sku_price": "Price",
+      "sku_type": "Type",
+      "provider": "Provider",
+      "status": "Status",
+      "effect_time": "Effect Time"
+    },
+    "type": {
+      "consumable": "Consumable",
+      "non_consumable": "Non-Consumable",
+      "subscription": "Subscription"
+    },
+    "btn": {
+      "add_sku": "Add",
+      "edit_sku": "Edit",
+      "update_sku": "Update",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "import_json": "Import JSON",
+      "export_json": "Export JSON",
+      "import_csv": "Import CSV",
+      "export_csv": "Export CSV",
+      "sync": "Sync",
+      "add_new": "Add New",
+      "delete": "Delete",
+      "clear_list": "Clear List"
+    },
+    "checkbox": {
+      "show_inactive": "Show Inactive",
+      "debug_mode": "Debug Mode"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending",
+      "effecting": "Effecting",
+      "pending_time": "Effect in {hours}h {minutes}m",
+      "pending_minutes": "Effect in {minutes}m"
+    },
+    "effect_time": {
+      "immediate": "Immediate",
+      "hours_2": "In 2 hours",
+      "hours_24_48": "In 24-48 hours"
+    },
+    "message": {
+      "select_sku": "Please select a SKU first",
+      "empty_sku_id": "SKU ID cannot be empty",
+      "empty_sku_name": "Product name cannot be empty",
+      "duplicate_sku_id": "SKU ID already exists",
+      "delete_disabled": "Physical deletion not allowed in production, please use deactivate",
+      "provider_not_configured": "Provider {provider} not configured, debug mode enabled",
+      "sync_disabled_in_debug": "Sync disabled in debug mode",
+      "no_provider_configured": "No provider configured, please configure first"
+    },
+    "confirm": {
+      "delete_sku": "Are you sure you want to delete the selected SKU?",
+      "clear_list": "Are you sure you want to clear all SKUs?"
+    },
+    "dialog": {
+      "save_file": "Save File",
+      "open_file": "Open File"
+    },
+    "error": {
+      "file_open": "Cannot open file",
+      "file_save": "Cannot save file",
+      "json_parse": "JSON parse failed",
+      "csv_empty": "CSV file is empty or invalid"
+    },
+    "log": {
+      "syncing": "Syncing SKUs...",
+      "sync_submitted": "{count} SKUs submitted for review",
+      "no_pending": "No pending SKUs",
+      "sku_added": "SKU added",
+      "sku_updated": "SKU updated",
+      "sku_pending": "SKU modification submitted, pending approval",
+      "sku_deactivated": "SKU deactivated",
+      "sku_activated": "SKU activated",
+      "sku_reactivate_pending": "SKU reactivation submitted, pending approval",
+      "import_json": "Importing JSON...",
+      "export_json": "Exporting JSON...",
+      "import_csv": "Importing CSV...",
+      "export_csv": "Exporting CSV...",
+      "import_success": "Successfully imported {count} SKUs",
+      "export_success": "Export successful",
+      "sku_deleted": "SKU deleted",
+      "list_cleared": "SKU list cleared",
+      "editing_sku": "Editing SKU...",
+      "edit_cancelled": "Edit cancelled",
+      "debug_enabled": "Debug mode enabled",
+      "debug_disabled": "Debug mode disabled",
+      "provider_not_configured": "Provider {provider} not configured",
+      "sync_success": "SKU {sku_id} synced, status: {status}",
+      "auto_debug_mode": "Provider not configured, debug mode enabled"
+    }
+  },
+  "module4": {
+    "title": "Test Simulation",
+    "description": "Simulate various purchase scenarios to test app response.\nIncludes success, no stock, user cancel, etc.",
+    "btn": {
+      "success": "Simulate Success",
+      "no_stock": "Simulate No Stock",
+      "cancel": "Simulate Cancel",
+      "reset": "Reset"
+    },
+    "checkbox": {
+      "debug_mode": "Debug Mode"
+    },
+    "log": {
+      "simulate_success": "Simulating purchase success",
+      "simulate_no_stock": "Simulating out of stock",
+      "simulate_cancel": "Simulating cancel purchase",
+      "reset": "Test status reset"
+    }
+  },
+  "module5": {
+    "title": "Log Output",
+    "description": "Display plugin operation logs with timestamps and details.\nSupport clear and export log files.",
+    "btn": {
+      "clear_log": "Clear Log",
+      "export_log": "Export Log"
+    },
+    "log": {
+      "export": "Exporting log..."
+    }
+  },
+  "module6": {
+    "title": "Server Configuration",
+    "description": "Configure server verification parameters for each platform.\nSupport multi-account management with independent settings.\nConfiguration encrypted and saved securely.",
+    "default_user": "Default User",
+    "label": {
+      "account": "Account",
+      "provider": "Provider",
+      "environment": "Environment"
+    },
+    "btn": {
+      "new_account": "New",
+      "save_account": "Save",
+      "delete_account": "Delete",
+      "rename_account": "Rename",
+      "select": "Select",
+      "save_config": "Save Config",
+      "load_config": "Load Config",
+      "test_connection": "Test Connection"
+    },
+    "google": {
+      "label": {
+        "key_file": "Key File",
+        "package": "Package Name"
+      },
+      "placeholder": {
+        "package": "com.example.app"
+      }
+    },
+    "apple": {
+      "label": {
+        "issuer_id": "Issuer ID",
+        "key_id": "Key ID",
+        "bundle_id": "Bundle ID",
+        "key_file": "Key File"
+      }
+    },
+    "huawei": {
+      "label": {
+        "api_key": "API Key",
+        "app_id": "App ID"
+      }
+    },
+    "status": {
+      "ready": "Ready",
+      "testing": "Testing...",
+      "connected": "Connected"
+    },
+    "message": {
+      "empty_field": "Field cannot be empty",
+      "no_account": "Please select an account first",
+      "empty_name": "Account name cannot be empty",
+      "account_exists": "Account name already exists",
+      "empty_key_file": "Please select a key file",
+      "empty_package": "Package name cannot be empty",
+      "empty_issuer_id": "Issuer ID cannot be empty",
+      "empty_key_id": "Key ID cannot be empty",
+      "empty_bundle_id": "Bundle ID cannot be empty",
+      "empty_api_key": "API Key cannot be empty",
+      "empty_app_id": "App ID cannot be empty"
+    },
+    "dialog": {
+      "new_account": "Please enter new account name:",
+      "rename_account": "Please enter new account name:"
+    },
+    "confirm": {
+      "delete_account": "Are you sure you want to delete the current account?"
+    },
+    "log": {
+      "account_switched": "Account switched:",
+      "account_created": "Account created:",
+      "config_saved": "Configuration saved",
+      "config_loaded": "Configuration loaded",
+      "select_key": "Please select key file...",
+      "testing_connection": "Testing connection...",
+      "account_deleted": "Account deleted:",
+      "account_renamed": "Account renamed:"
+    }
+  },
+  "module7": {
+    "title": "Receipt Verification Test",
+    "description": "Simulate receipt verification requests to platforms.\nSelect provider and enter parameters to test server logic.\nView simulated response data.",
+    "label": {
+      "provider": "Provider",
+      "response": "Response:"
+    },
+    "google": {
+      "label": {
+        "product_id": "Product ID",
+        "token": "Purchase Token",
+        "order_id": "Order ID"
+      }
+    },
+    "apple": {
+      "label": {
+        "product_id": "Product ID",
+        "transaction_id": "Transaction ID",
+        "original_tx_id": "Original Transaction ID"
+      }
+    },
+    "huawei": {
+      "label": {
+        "product_id": "Product ID",
+        "token": "Purchase Token",
+        "purchase_data": "Purchase Data"
+      }
+    },
+    "btn": {
+      "verify": "Verify",
+      "clear": "Clear"
+    },
+    "log": {
+      "verify_completed": "Verification completed"
+    }
+  },
+  "module8": {
+    "title": "Platform Analytics Reports",
+    "description": "Fetch analytics reports from platforms including app performance, financial, subscriptions, crashes, and ratings data.",
+    "label": {
+      "platform": "Platform",
+      "report_type": "Report Type",
+      "date_range": "Date Range",
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "preview": "Data Preview"
+    },
+    "btn": {
+      "test_connection": "Test Connection",
+      "query": "Query Reports",
+      "download": "Download",
+      "open_folder": "Open Folder",
+      "browse": "Browse..."
+    },
+    "apple": {
+      "label": {
+        "issuer_id": "Issuer ID",
+        "key_id": "Key ID",
+        "key_file": "P8 Key File",
+        "vendor_number": "Vendor Number"
+      }
+    },
+    "google": {
+      "label": {
+        "key_file": "Service Account Key",
+        "bucket_id": "Bucket ID",
+        "package_name": "Package Name"
+      }
+    },
+    "huawei": {
+      "label": {
+        "client_id": "Client ID",
+        "app_id": "App ID",
+        "team_id": "Team ID"
+      }
+    },
+    "report_type": {
+      "sales": "Sales Report",
+      "financial": "Financial Report",
+      "analytics": "App Analytics",
+      "subscription": "Subscription Report",
+      "estimated_sales": "Estimated Sales",
+      "earnings": "Earnings",
+      "crashes": "Crashes",
+      "installs": "Installs",
+      "ratings": "Ratings",
+      "user_analysis": "User Analysis",
+      "distribution_analysis": "Distribution Analysis",
+      "fa_distribution": "FA Distribution"
+    },
+    "date_range": {
+      "yesterday": "Yesterday",
+      "last_7_days": "Last 7 Days",
+      "last_30_days": "Last 30 Days",
+      "this_month": "This Month",
+      "custom": "Custom"
+    },
+    "tree": {
+      "file_name": "File Name",
+      "date": "Date",
+      "type": "Type",
+      "size": "Size"
+    },
+    "status": {
+      "ready": "Ready",
+      "testing": "Testing connection...",
+      "connected": "Connected",
+      "connection_failed": "Connection failed",
+      "querying": "Querying reports...",
+      "query_complete": "Query complete",
+      "loading_preview": "Loading preview...",
+      "preview_ready": "Preview ready",
+      "saved": "Saved"
+    },
+    "message": {
+      "config_incomplete": "Please complete authentication configuration first",
+      "no_report_selected": "Please select a report first"
+    },
+    "log": {
+      "platform_changed": "Switched to {platform}",
+      "type_changed": "Selected report type: {type}",
+      "testing_connection": "Testing {platform} connection...",
+      "connection_success": "Connection test successful",
+      "connection_failed": "Connection test failed, please check configuration",
+      "querying_reports": "Querying reports...",
+      "reports_found": "Found {count} reports",
+      "loading_preview": "Loading preview: {file}",
+      "report_saved": "Report saved to: {path}"
+    }
+  }
+}

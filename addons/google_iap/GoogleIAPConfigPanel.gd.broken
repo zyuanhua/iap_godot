@@ -1,0 +1,2568 @@
+@tool
+extends ScrollContainer
+
+# ===================== æ°æ®ç»æ =====================
+class IAPSKUData:
+	var sku_id: String = ""
+	var sku_name: String = ""
+	var sku_price: String = ""
+	var provider: String = "Google"
+	var status: String = "active"
+	var pending_until: int = 0
+	var modified_time: int = 0
+	
+	func _init(p_id: String = "", p_name: String = "", p_price: String = "", p_provider: String = "Google", p_status: String = "active"):
+		sku_id = p_id
+		sku_name = p_name
+		sku_price = p_price
+		provider = p_provider
+		status = p_status
+		modified_time = Time.get_unix_time_from_system()
+	
+	func to_dict() -> Dictionary:
+		return {
+			"sku_id": sku_id,
+			"sku_name": sku_name,
+			"sku_price": sku_price,
+			"provider": provider,
+			"status": status,
+			"pending_until": pending_until,
+			"modified_time": modified_time
+		}
+	
+	static func from_dict(data: Dictionary) -> IAPSKUData:
+		var sku = IAPSKUData.new(
+			data.get("sku_id", ""),
+			data.get("sku_name", ""),
+			data.get("sku_price", ""),
+			data.get("provider", "Google"),
+			data.get("status", "active")
+		)
+		sku.pending_until = data.get("pending_until", 0)
+		sku.modified_time = data.get("modified_time", Time.get_unix_time_from_system())
+		return sku
+
+# ===================== èç¹ç»å® - ä½¿ç¨@onready åå¯ä¸åç§° =====================
+# æ¨¡å 1ï¼åºç¡ IAP æä½å?
+@onready var title1: Label = %Title1
+@onready var module1_info: Label = %module1_info
+@onready var test_sku_option: OptionButton = %test_sku_option
+@onready var order_id_edit: LineEdit = %order_id_edit
+@onready var btn_check_order: Button = %btn_check_order
+@onready var operation_status_label: Label = %operation_status_label
+@onready var btn_clear_inputs: Button = %btn_clear_inputs
+
+# æ¨¡å 2ï¼è®¡è´¹æå¡æ§å¶åº
+@onready var title2: Label = %Title2
+@onready var module2_info: Label = %module2_info
+@onready var btn_init_billing: Button = %btn_init_billing
+@onready var btn_refresh_billing: Button = %btn_refresh_billing
+@onready var btn_close_billing: Button = %btn_close_billing
+@onready var env_option: OptionButton = %env_option
+@onready var service_status_label: Label = %service_status_label
+
+# æ¨¡å 3ï¼SKU ç®¡çå?
+@onready var title3: Label = %Title3
+@onready var module3_info: Label = %module3_info
+@onready var sku_id_edit: LineEdit = %sku_id_edit
+@onready var sku_name_edit: LineEdit = %sku_name_edit
+@onready var sku_price_edit: LineEdit = %sku_price_edit
+@onready var sku_provider_option: OptionButton = %sku_provider_option
+@onready var sku_provider_filter: OptionButton = %sku_provider_filter
+@onready var show_inactive_checkbox: CheckBox = %show_inactive_checkbox
+@onready var debug_mode_checkbox: CheckBox = %debug_mode_checkbox
+@onready var btn_manual_sync: Button = %btn_manual_sync
+@onready var sku_tree: Tree = %sku_tree
+@onready var btn_add_sku: Button = %btn_add_sku
+@onready var btn_edit_sku: Button = %btn_edit_sku
+@onready var btn_update_sku: Button = %btn_update_sku
+@onready var btn_deactivate_sku: Button = %btn_deactivate_sku
+@onready var btn_activate_sku: Button = %btn_activate_sku
+@onready var btn_import_sku: Button = %btn_import_sku
+@onready var btn_export_sku: Button = %btn_export_sku
+@onready var btn_import_csv: Button = %btn_import_csv
+@onready var btn_export_csv: Button = %btn_export_csv
+@onready var btn_add_new_sku: Button = %btn_add_new_sku
+@onready var btn_delete_sku: Button = %btn_delete_sku
+@onready var btn_clear_sku_list: Button = %btn_clear_sku_list
+@onready var status_timer: Timer = %status_timer
+
+# æ¨¡å 4ï¼æµè¯æ¨¡æåº
+@onready var title4: Label = %Title4
+@onready var module4_info: Label = %module4_info
+@onready var btn_simulate_success: Button = %btn_simulate_success
+@onready var btn_simulate_no_stock: Button = %btn_simulate_no_stock
+@onready var btn_simulate_cancel: Button = %btn_simulate_cancel
+@onready var btn_reset_test: Button = %btn_reset_test
+@onready var debug_checkbox: CheckBox = %debug_checkbox
+
+# æ¨¡å 5ï¼æ¥å¿è¾åºåº
+@onready var title5: Label = %Title5
+@onready var module5_info: Label = %module5_info
+@onready var log_text: TextEdit = %log_text
+@onready var btn_clear_log: Button = %btn_clear_log
+@onready var btn_export_log: Button = %btn_export_log
+
+# æ¨¡å 6ï¼æå¡ç«¯éç½®å?
+@onready var title6: Label = %Title6
+@onready var module6_info: Label = %module6_info
+@onready var server_provider: OptionButton = %server_provider
+@onready var server_env: OptionButton = %server_env
+@onready var google_config_container: VBoxContainer = %google_config_container
+@onready var module6_product_id_label: Label = %module6_product_id_label
+@onready var google_key_path: LineEdit = %google_key_path
+@onready var btn_select_google_key: Button = %btn_select_google_key
+@onready var module6_token_label: Label = %module6_token_label
+@onready var google_package_name: LineEdit = %google_package_name
+@onready var apple_config_container: VBoxContainer = %apple_config_container
+@onready var apple_issuer_id: LineEdit = %apple_issuer_id
+@onready var apple_key_id: LineEdit = %apple_key_id
+@onready var apple_bundle_id: LineEdit = %apple_bundle_id
+@onready var apple_key_path: LineEdit = %apple_key_path
+@onready var btn_select_apple_key: Button = %btn_select_apple_key
+@onready var huawei_config_container: VBoxContainer = %huawei_config_container
+@onready var huawei_api_key: LineEdit = %huawei_api_key
+@onready var huawei_app_id: LineEdit = %huawei_app_id
+@onready var btn_save_server_config: Button = %btn_save_server_config
+@onready var btn_load_server_config: Button = %btn_load_server_config
+@onready var btn_test_connection: Button = %btn_test_connection
+@onready var validation_warning_dialog: AcceptDialog = %validation_warning_dialog
+@onready var account_selector: OptionButton = %account_selector
+@onready var btn_new_account: Button = %btn_new_account
+@onready var btn_save_account: Button = %btn_save_account
+@onready var btn_delete_account: Button = %btn_delete_account
+@onready var btn_rename_account: Button = %btn_rename_account
+@onready var input_dialog: AcceptDialog = %input_dialog
+@onready var input_field: LineEdit = %input_field
+@onready var confirm_dialog: AcceptDialog = %confirm_dialog
+
+# è¯­è¨éæ©å?
+@onready var language_selector: OptionButton = %language_selector
+
+var server_accounts: Array = []
+const ACCOUNTS_FILE_PATH = "res://addons/google_iap/server_accounts.json"
+
+# æ¨¡å 7ï¼éªåæµè¯å·¥å·åº
+# æ¨¡å 7ï¼éªåæµè¯å·¥å·åº
+@onready var title7: Label = %Title7
+@onready var module7_info: Label = %module7_info
+@onready var module7_provider_label: Label = %module7_provider_label
+@onready var module7_provider_option: OptionButton = %module7_provider_option
+@onready var module7_product_id_label: Label = %module7_product_id_label
+@onready var module7_product_id_edit: LineEdit = %module7_product_id_edit
+@onready var module7_token_label: Label = %module7_token_label
+@onready var module7_token_edit: LineEdit = %module7_token_edit
+@onready var module7_order_id_label: Label = %module7_order_id_label
+@onready var module7_order_id_edit: LineEdit = %module7_order_id_edit
+@onready var module7_apple_product_id_label: Label = %module7_apple_product_id_label
+@onready var module7_apple_product_id_edit: LineEdit = %module7_apple_product_id_edit
+@onready var module7_transaction_id_label: Label = %module7_transaction_id_label
+@onready var module7_transaction_id_edit: LineEdit = %module7_transaction_id_edit
+@onready var module7_original_transaction_id_label: Label = %module7_original_transaction_id_label
+@onready var module7_original_transaction_id_edit: LineEdit = %module7_original_transaction_id_edit
+@onready var module7_apple_order_id_label: Label = %module7_apple_order_id_label
+@onready var module7_apple_order_id_edit: LineEdit = %module7_apple_order_id_edit
+@onready var module7_huawei_product_id_label: Label = %module7_huawei_product_id_label
+@onready var module7_huawei_product_id_edit: LineEdit = %module7_huawei_product_id_edit
+@onready var module7_huawei_token_label: Label = %module7_huawei_token_label
+@onready var module7_huawei_token_edit: LineEdit = %module7_huawei_token_edit
+@onready var module7_huawei_order_id_label: Label = %module7_huawei_order_id_label
+@onready var module7_huawei_order_id_edit: LineEdit = %module7_huawei_order_id_edit
+@onready var module7_btn_simulate_verify: Button = %module7_btn_simulate_verify
+@onready var module7_btn_clear_response: Button = %module7_btn_clear_response
+@onready var module7_response_text: TextEdit = %module7_response_text
+# å®¹å¨å¼ç¨ï¼ç¨äºå¯è§æ§æ§å¶ï¼
+@onready var module7_google_container: VBoxContainer = %test_google_container
+@onready var module7_apple_container: VBoxContainer = %test_apple_container
+@onready var module7_huawei_container: VBoxContainer = %test_huawei_container
+
+# ===================== æ°æ®å­å¨ =====================
+var sku_database: Array = []
+var is_debug_mode: bool = false
+var is_sku_debug_mode: bool = false
+var server_config: Dictionary = {}
+var currently_editing_index: int = -1
+
+# ===================== è¯­è¨ç³»ç» =====================
+var current_language: String = "zh"
+var localization_data: Dictionary = {}
+const LOCALES_PATH = "res://addons/google_iap/locales/"
+
+# ===================== çå½å¨æ =====================
+func _ready():
+	# é¦åå è½½è¯­è¨åå¥½
+	current_language = _load_language_preference()
+	
+	_connect_signals()
+	# åå è½½è¯­è¨æä»¶ï¼è¿æ ·_init_ui ä¸­å¯ä»¥ä½¿ç¨_t()
+	_load_localization(current_language)
+	_init_ui()
+	_init_data()
+	# åæ¬¡åºç¨æ¬å°åä»¥ç¡®ä¿ææææ¬æ­£ç¡?
+	_apply_localization()
+	_setup_language_selector()
+	_append_log(_log("log.plugin_loaded"))
+	service_status_label.text = _t("status.not_initialized")
+	
+	# æåä¸æ¬¡ç¡®ä¿?SKU ä¸ææ¡éé¡¹æ­£ç¡®
+	if sku_provider_filter:
+		sku_provider_filter.clear()
+		sku_provider_filter.add_item("All")
+		sku_provider_filter.add_item("Google")
+		sku_provider_filter.add_item("Apple")
+		sku_provider_filter.add_item("Huawei")
+		_append_log(_log("log.final_sku_filter_set"))
+
+# ===================== ä¿¡å·è¿æ¥ =====================
+func _connect_signals():
+	btn_check_order.pressed.connect(_on_check_order)
+	btn_clear_inputs.pressed.connect(_on_clear_inputs)
+	btn_init_billing.pressed.connect(_on_init_billing)
+	btn_refresh_billing.pressed.connect(_on_refresh_billing)
+	btn_close_billing.pressed.connect(_on_close_billing)
+	
+	btn_add_sku.pressed.connect(_on_add_sku)
+	btn_edit_sku.pressed.connect(_on_edit_sku)
+	btn_update_sku.pressed.connect(_on_update_sku)
+	btn_deactivate_sku.pressed.connect(_on_deactivate_sku)
+	btn_activate_sku.pressed.connect(_on_activate_sku)
+	btn_import_sku.pressed.connect(_on_import_sku)
+	btn_export_sku.pressed.connect(_on_export_sku)
+	btn_import_csv.pressed.connect(_on_import_csv)
+	btn_export_csv.pressed.connect(_on_export_csv)
+	sku_provider_filter.item_selected.connect(_on_provider_filter_changed)
+	show_inactive_checkbox.toggled.connect(_on_show_inactive_toggled)
+	debug_mode_checkbox.toggled.connect(_on_sku_debug_mode_toggled)
+	btn_manual_sync.pressed.connect(_on_manual_sync)
+	status_timer.timeout.connect(_on_check_pending_status)
+	sku_tree.item_selected.connect(_on_sku_selected)
+	
+	# SKU ç®¡çæé®ï¼ä»è°è¯æ¨¡å¼ï¼?
+	btn_add_new_sku.pressed.connect(_on_add_new_sku)
+	btn_delete_sku.pressed.connect(_on_delete_sku)
+	btn_clear_sku_list.pressed.connect(_on_clear_sku_list)
+	
+	btn_simulate_success.pressed.connect(_on_simulate_success)
+	btn_simulate_no_stock.pressed.connect(_on_simulate_no_stock)
+	btn_simulate_cancel.pressed.connect(_on_simulate_cancel)
+	btn_reset_test.pressed.connect(_on_reset_test)
+	btn_clear_log.pressed.connect(_on_clear_log)
+	btn_export_log.pressed.connect(_on_export_log)
+	env_option.item_selected.connect(_on_env_selected)
+	debug_checkbox.toggled.connect(_on_debug_toggled)
+	
+	btn_select_google_key.pressed.connect(_on_select_google_key)
+	btn_select_apple_key.pressed.connect(_on_select_apple_key)
+	btn_save_server_config.pressed.connect(_on_save_server_config)
+	btn_load_server_config.pressed.connect(_on_load_server_config)
+	btn_test_connection.pressed.connect(_on_test_connection)
+	server_provider.item_selected.connect(_on_server_provider_selected)
+	
+	btn_new_account.pressed.connect(_on_new_account)
+	btn_save_account.pressed.connect(_on_save_account)
+	btn_delete_account.pressed.connect(_on_delete_account)
+	btn_rename_account.pressed.connect(_on_rename_account)
+	account_selector.item_selected.connect(_on_account_selected)
+	
+	module7_btn_simulate_verify.pressed.connect(_on_test_verification)
+	module7_btn_clear_response.pressed.connect(_on_clear_test_response)
+	module7_provider_option.item_selected.connect(_on_module7_provider_option_selected)
+	
+	# è¯­è¨éæ©å¨ï¼å¦æå­å¨ï¼?
+	if has_node("%language_selector"):
+		%language_selector.item_selected.connect(_on_language_changed)
+
+# ===================== UIåå§å?=====================
+func _init_ui():
+	_append_log(_log("log.init_ui_called"))
+	env_option.clear()
+	env_option.add_item("æ²çç¯å¢ (Sandbox)")
+	env_option.add_item("çäº§ç¯å¢ (Production)")
+	
+	# åå§åè¯­è¨éæ©å?
+	if has_node("%language_selector"):
+		%language_selector.clear()
+		%language_selector.add_item("ä¸­æ")
+		%language_selector.add_item("English")
+		%language_selector.selected = 0
+	
+	_append_log(_log("log.init_sku_provider_filter", [_t("module3.provider_filter_option.all")]))
+	sku_provider_filter.clear()
+	sku_provider_filter.add_item(_t("module3.provider_filter_option.all"))
+	sku_provider_filter.add_item(_t("module3.provider_filter_option.google"))
+	sku_provider_filter.add_item(_t("module3.provider_filter_option.apple"))
+	sku_provider_filter.add_item(_t("module3.provider_filter_option.huawei"))
+	
+	sku_provider_option.clear()
+	sku_provider_option.add_item(_t("module3.provider_option.google"))
+	sku_provider_option.add_item(_t("module3.provider_option.apple"))
+	sku_provider_option.add_item(_t("module3.provider_option.huawei"))
+	
+	server_provider.clear()
+	server_provider.add_item(_t("module6.provider_option.google"))
+	server_provider.add_item(_t("module6.provider_option.apple"))
+	server_provider.add_item(_t("module6.provider_option.huawei"))
+	server_provider.add_item(_t("module6.provider_option.custom"))
+	
+	server_env.clear()
+	server_env.add_item(_t("module6.env_option.sandbox"))
+	server_env.add_item(_t("module6.env_option.production"))
+	
+	module7_provider_option.clear()
+	module7_provider_option.add_item(_t("module7.provider_option.google"))
+	module7_provider_option.add_item(_t("module7.provider_option.apple"))
+	module7_provider_option.add_item(_t("module7.provider_option.huawei"))
+	
+	google_config_container.visible = true
+	apple_config_container.visible = false
+	huawei_config_container.visible = false
+	
+	module7_google_container.visible = true
+	module7_apple_container.visible = false
+	module7_huawei_container.visible = false
+	
+	btn_manual_sync.disabled = true
+	sku_id_edit.editable = true
+	btn_edit_sku.text = _t("module3.btn.edit")
+	
+	# åå§å?SKU ç®¡çæé®ç¶æï¼ä»è°è¯æ¨¡å¼å¯ç¨ï¼
+	btn_add_new_sku.visible = is_sku_debug_mode
+	btn_delete_sku.visible = is_sku_debug_mode
+	btn_clear_sku_list.visible = is_sku_debug_mode
+	btn_add_new_sku.disabled = not is_sku_debug_mode
+	btn_delete_sku.disabled = not is_sku_debug_mode
+	btn_clear_sku_list.disabled = not is_sku_debug_mode
+	
+	_load_accounts()
+	_refresh_account_selector()
+	if account_selector.item_count > 0:
+		account_selector.selected = 0
+		_load_account_to_ui(0)
+	
+	_init_tree()
+
+func _init_tree():
+	sku_tree.set_column_titles_visible(true)
+	sku_tree.set_column_title(0, "ID")
+	sku_tree.set_column_title(1, "åç§°")
+	sku_tree.set_column_title(2, "ä»·æ ¼")
+	sku_tree.set_column_title(3, "æå¡å?)
+	sku_tree.set_column_title(4, "ç¶æ?)
+
+# ===================== æ°æ®åå§å?=====================
+func _init_data():
+	var test_sku1 = IAPSKUData.new("com.example.gold.100", "100éå¸", "0.99", "Google", "active")
+	var test_sku2 = IAPSKUData.new("com.example.gold.500", "500éå¸", "4.99", "Apple", "active")
+	var test_sku3 = IAPSKUData.new("com.example.gold.1000", "1000éå¸", "9.99", "Huawei", "active")
+	sku_database = [test_sku1, test_sku2, test_sku3]
+	
+	_refresh_sku_tree()
+	_refresh_test_sku_option()
+
+# ==================== æ¥å¿ç³»ç» ====================
+func _append_log(message: String):
+	var timestamp = Time.get_datetime_string_from_system()
+	log_text.text += "[%s] %s\n" % [timestamp, message]
+	log_text.scroll_vertical = log_text.get_v_scroll_bar().max_value
+
+func _append_debug_log(message: String):
+	if is_debug_mode:
+		var timestamp = Time.get_datetime_string_from_system()
+		log_text.text += "[DEBUG] [%s] %s\n" % [timestamp, message]
+		log_text.scroll_vertical = log_text.get_v_scroll_bar().max_value
+
+func _log(key: String, args: Array = []) -> String:
+	"""è·åæ¬å°åæ¥å¿æ¶æ?""
+	# å¦æ key ä¸ä»¥"log."å¼å¤´ï¼èªå¨æ·»å åç¼
+	if not key.begins_with("log."):
+		key = "log." + key
+	return _t_with_args(key, args)
+
+# ==================== æ¨¡å 1ï¼åºç¡ IAP æä½å?====================
+func _on_check_order():
+	_append_log(_log("log_check_order_click"))
+	var order_id = order_id_edit.text.strip_edges()
+	if order_id.is_empty():
+		_append_log(_log("log_warning_order_id_empty"))
+		operation_status_label.text = _t("order_id") + _t("status.not_initialized")
+		return
+	operation_status_label.text = _t("status.pending")
+	await get_tree().create_timer(1).timeout
+	operation_status_label.text = _t("status.success")
+	_append_log(_log("log_order_query_success", [order_id]))
+
+func _on_clear_inputs():
+	_append_log(_log("log_clear_inputs_click"))
+	order_id_edit.clear()
+	operation_status_label.text = _t("status.cleared")
+	_append_log(_log("log_inputs_cleared"))
+
+# ==================== æ¨¡å 2ï¼è®¡è´¹æå¡æ§å¶åº ====================
+func _on_env_selected(index: int):
+	var env_text = env_option.get_item_text(index)
+	_append_log(_log("log_environment_changed", [env_text]))
+	_append_debug_log(_log("log_environment_index", [index]))
+
+func _on_init_billing():
+	_append_log(_log("log_init_billing_click"))
+	service_status_label.text = _t("status.initializing")
+	await get_tree().create_timer(1.5).timeout
+	service_status_label.text = _t("status.connected")
+	_append_log(_log("log_billing_initialized"))
+
+func _on_refresh_billing():
+	_append_log(_log("log_refresh_billing_click"))
+	service_status_label.text = _t("status.refreshing")
+	await get_tree().create_timer(0.5).timeout
+	service_status_label.text = _t("status.connected")
+	_append_log(_log("log_billing_refreshed"))
+
+func _on_close_billing():
+	_append_log(_log("log_close_billing_click"))
+	service_status_label.text = _t("status.disconnecting")
+	await get_tree().create_timer(1).timeout
+	service_status_label.text = _t("status.not_initialized")
+	_append_log(_log("log_billing_closed"))
+	service_status_label.text = _t("module2.service_status.uninitialized")
+	_append_log(_log("log_billing_closed"))
+
+# ===================== æ¨¡å3ï¼SKUç®¡çå?=====================
+func _get_status_text(status: String) -> String:
+	match status:
+		"active":
+			return "çæä¸?
+		"inactive":
+			return "å·²åç?
+		"pending":
+			return "å¾çæ?
+		_:
+			return "æªç¥"
+
+func _get_status_color(status: String) -> Color:
+	match status:
+		"active":
+			return Color(0, 0.8, 0)
+		"inactive":
+			return Color(0.8, 0, 0)
+		"pending":
+			return Color(0.8, 0.6, 0)
+		_:
+			return Color(0.5, 0.5, 0.5)
+
+func _on_provider_filter_changed(index: int):
+	_append_log(_log("log.sku_provider_filter", [sku_provider_filter.get_item_text(index)]))
+	_refresh_sku_tree()
+
+func _on_show_inactive_toggled(checked: bool):
+	_append_log(_log("log.inactive_sku_display", [("å¼å? if checked else "å³é­")]))
+	_refresh_sku_tree()
+
+func _refresh_sku_tree():
+	sku_tree.clear()
+	
+	var filter_provider = ""
+	if sku_provider_filter.selected > 0:
+		filter_provider = sku_provider_filter.get_item_text(sku_provider_filter.selected)
+	
+	var show_inactive = show_inactive_checkbox.button_pressed
+	
+	for i in range(sku_database.size()):
+		var sku = sku_database[i]
+		
+		if filter_provider != "" and sku.provider != filter_provider:
+			continue
+		
+		if sku.status == "inactive" and not show_inactive:
+			continue
+		
+		var item = sku_tree.create_item()
+		item.set_text(0, sku.sku_id)
+		item.set_text(1, sku.sku_name)
+		item.set_text(2, sku.sku_price)
+		item.set_text(3, sku.provider)
+		item.set_text(4, _get_status_text(sku.status))
+		item.set_custom_color(4, _get_status_color(sku.status))
+		item.set_meta("index", i)
+
+func _refresh_test_sku_option():
+	test_sku_option.clear()
+	for sku in sku_database:
+		if sku.status == "active" or sku.status == "pending":
+			test_sku_option.add_item("%s (%s)" % [sku.sku_name, sku.sku_id])
+
+func _on_sku_selected():
+	if currently_editing_index >= 0:
+		_exit_edit_mode()
+	
+	var selected = sku_tree.get_selected()
+	if selected:
+		btn_edit_sku.disabled = false
+		btn_deactivate_sku.disabled = false
+		btn_activate_sku.disabled = false
+	else:
+		btn_edit_sku.disabled = true
+		btn_deactivate_sku.disabled = true
+		btn_activate_sku.disabled = true
+
+func _exit_edit_mode():
+	currently_editing_index = -1
+	btn_update_sku.disabled = true
+	btn_add_sku.disabled = false
+	btn_edit_sku.text = _t("module3.btn.edit")
+	sku_id_edit.editable = true
+	sku_id_edit.clear()
+	sku_name_edit.clear()
+	sku_price_edit.clear()
+	sku_provider_option.selected = -1
+	
+	var selected = sku_tree.get_selected()
+	if not selected:
+		btn_edit_sku.disabled = true
+		btn_deactivate_sku.disabled = true
+		btn_activate_sku.disabled = true
+	else:
+		btn_edit_sku.disabled = false
+		btn_deactivate_sku.disabled = false
+		btn_activate_sku.disabled = false
+	
+	_append_log(_log("log.exit_edit_mode"))
+
+func _on_add_sku():
+	_append_log(_log("log.click_add_sku"))
+	
+	if currently_editing_index >= 0:
+		_append_log(_log("log.exit_edit_mode"))
+		_exit_edit_mode()
+		return
+	
+	var id = sku_id_edit.text.strip_edges()
+	var name = sku_name_edit.text.strip_edges()
+	var price = sku_price_edit.text.strip_edges()
+	var provider_index = sku_provider_option.selected
+	var provider = sku_provider_option.get_item_text(provider_index) if provider_index >= 0 else "Google"
+	
+	if id.is_empty():
+		_append_log(_log("log.error_sku_id_empty"))
+		return
+	
+	if name.is_empty():
+		_append_log(_log("log.error_sku_name_empty"))
+		return
+	
+	if not price.is_valid_float():
+		_append_log(_log("log.error_price_invalid"))
+		return
+	
+	for sku in sku_database:
+		if sku.sku_id == id:
+			_append_log(_log("log.error_sku_exists", [id]))
+			return
+	
+	var new_sku = IAPSKUData.new(id, name, price, provider, "active")
+	sku_database.append(new_sku)
+	
+	_refresh_sku_tree()
+	_refresh_test_sku_option()
+	
+	# æ¸ç©ºææè¾å¥æ¡
+	sku_id_edit.text = ""
+	sku_name_edit.text = ""
+	sku_price_edit.text = ""
+	sku_provider_option.selected = 0  # è®¾ä¸ºé»è®¤å?Google
+	
+	# ç¡®ä¿ ID å¯ç¼è¾?
+	sku_id_edit.editable = true
+	
+	_append_log(_log("log.sku_added_success", [id, name]))
+
+# ==================== SKU ç®¡çåè½ï¼ä»è°è¯æ¨¡å¼ï¼?====================
+func _on_add_new_sku():
+	if not is_sku_debug_mode:
+		_append_log(_log("log.debug_mode_only"))
+		return
+	
+	_append_log(_log("log.click_add_sku_confirm"))
+	
+	var id = sku_id_edit.text.strip_edges()
+	var name = sku_name_edit.text.strip_edges()
+	var price = sku_price_edit.text.strip_edges()
+	var provider_index = sku_provider_option.selected
+	var provider = sku_provider_option.get_item_text(provider_index) if provider_index >= 0 else "Google"
+	
+	if id.is_empty():
+		_append_log(_log("log.error_sku_id_empty"))
+		return
+	
+	if name.is_empty():
+		_append_log(_log("log.error_sku_name_empty"))
+		return
+	
+	if not price.is_valid_float():
+		_append_log(_log("log.error_price_invalid"))
+		return
+	
+	for sku in sku_database:
+		if sku.sku_id == id:
+			_append_log(_log("log.error_sku_exists", [id]))
+			return
+	
+	var new_sku = IAPSKUData.new(id, name, price, provider, "active")
+	sku_database.append(new_sku)
+	
+	_refresh_sku_tree()
+	_refresh_test_sku_option()
+	
+	# æ¸ç©ºè¾å¥æ¡?
+	sku_id_edit.text = ""
+	sku_name_edit.text = ""
+	sku_price_edit.text = ""
+	sku_provider_option.selected = 0
+	
+	_append_log(_log("log.sku_added_success", [id, name]))
+
+func _on_delete_sku():
+	if not is_sku_debug_mode:
+		_append_log(_log("log.debug_mode_only"))
+		return
+	
+	_append_log(_log("log.click_delete_sku"))
+	
+	var selected_item = sku_tree.get_selected()
+	if not selected_item:
+		_append_log(_log("log.error_no_sku_selected"))
+		return
+	
+	var item_index = selected_item.get_index()
+	if item_index < 0 or item_index >= sku_database.size():
+		_append_log(_log("log.error_invalid_sku_index"))
+		return
+	
+	var deleted_sku = sku_database[item_index]
+	sku_database.remove_at(item_index)
+	
+	_refresh_sku_tree()
+	_refresh_test_sku_option()
+	
+	_append_log(_log("log.sku_deleted", [deleted_sku.sku_id]))
+
+func _on_clear_sku_list():
+	if not is_sku_debug_mode:
+		_append_log(_log("log.debug_mode_only"))
+		return
+	
+	_append_log(_log("log.click_clear_list"))
+	
+	if sku_database.is_empty():
+		_append_log(_log("log.warning_list_empty"))
+		return
+	
+	sku_database.clear()
+	
+	_refresh_sku_tree()
+	_refresh_test_sku_option()
+	
+	_append_log(_log("log.sku_list_cleared"))
+
+func _on_edit_sku():
+	_append_log(_log("log.click_edit_sku"))
+	
+	if currently_editing_index >= 0:
+		_exit_edit_mode()
+		return
+	
+	var selected = sku_tree.get_selected()
+	if not selected:
+		_append_log(_log("log.warning_select_sku_first_edit"))
+		return
+	
+	var idx = selected.get_meta("index", -1)
+	if idx < 0 or idx >= sku_database.size():
+		_append_log(_log("log.error_invalid_edit_index"))
+		return
+	
+	var sku = sku_database[idx]
+	
+	sku_id_edit.editable = false
+	sku_id_edit.text = sku.sku_id
+	sku_name_edit.text = sku.sku_name
+	sku_price_edit.text = sku.sku_price
+	
+	var provider_idx = -1
+	for i in range(sku_provider_option.item_count):
+		if sku_provider_option.get_item_text(i) == sku.provider:
+			provider_idx = i
+			break
+	
+	if provider_idx >= 0:
+		sku_provider_option.selected = provider_idx
+	
+	currently_editing_index = idx
+	btn_update_sku.disabled = false
+	btn_add_sku.disabled = true
+	btn_edit_sku.text = _t("module3.btn.exit_edit")
+	
+	_append_log(_log("log.enter_edit_mode", [sku.sku_id]))
+
+func _on_update_sku():
+	_append_log(_log("log.click_update_sku"))
+	
+	if currently_editing_index < 0 or currently_editing_index >= sku_database.size():
+		_append_log(_log("log.error_invalid_edit_index"))
+		_exit_edit_mode()
+		return
+	
+	var name = sku_name_edit.text.strip_edges()
+	var price = sku_price_edit.text.strip_edges()
+	var provider = sku_provider_option.get_item_text(sku_provider_option.selected)
+	
+	if name.is_empty():
+		_append_log(_log("log.error_sku_name_empty"))
+		return
+	
+	if not price.is_valid_float():
+		_append_log(_log("log.error_price_invalid"))
+		return
+	
+	var sku = sku_database[currently_editing_index]
+	var old_name = sku.sku_name
+	var old_price = sku.sku_price
+	var old_provider = sku.provider
+	
+	var has_changed = (name != old_name) or (price != old_price) or (provider != old_provider)
+	
+	if has_changed:
+		sku.sku_name = name
+		sku.sku_price = price
+		sku.provider = provider
+		sku.modified_time = Time.get_unix_time_from_system()
+		
+		if is_sku_debug_mode:
+			sku.status = "active"
+			sku.pending_until = 0
+			_append_log(_log("log.debug_direct_update_sku_detail", [sku.sku_id]))
+		else:
+			if sku.status != "inactive":
+				sku.status = "pending"
+				sku.pending_until = Time.get_unix_time_from_system() + 7200
+				_append_log(_log("log.sku_updated_pending_detail", [sku.sku_id]))
+			else:
+				_append_log(_log("log.sku_updated_keep_inactive_detail", [sku.sku_id]))
+	else:
+		_append_log(_log("log.sku_unchanged_detail", [sku.sku_id]))
+	
+	_refresh_sku_tree()
+	_refresh_test_sku_option()
+	_exit_edit_mode()
+
+func _on_deactivate_sku():
+	_append_log(_log("log.click_deactivate_sku"))
+	
+	var selected = sku_tree.get_selected()
+	if not selected:
+		_append_log(_log("log.warning_select_sku_first_deactivate"))
+		return
+	
+	var idx = selected.get_meta("index", -1)
+	if idx < 0 or idx >= sku_database.size():
+		_append_log(_log("log.error_invalid_deactivate_index"))
+		return
+	
+	var sku = sku_database[idx]
+	if sku.status == "inactive":
+		_append_log(_log("log.warning_sku_already_inactive", [sku.sku_id]))
+		return
+	
+	sku.status = "inactive"
+	sku.modified_time = Time.get_unix_time_from_system()
+	
+	_refresh_sku_tree()
+	_refresh_test_sku_option()
+	_exit_edit_mode()
+	
+	if is_sku_debug_mode:
+		_append_log(_log("log.debug_direct_deactivate_sku", [sku.sku_name, sku.sku_id]))
+	else:
+		_append_log(_log("log.sku_deactivated_detail", [sku.sku_name, sku.sku_id]))
+
+func _on_activate_sku():
+	_append_log(_log("log.click_activate_sku"))
+	
+	var selected = sku_tree.get_selected()
+	if not selected:
+		_append_log(_log("log.warning_select_sku_first_activate"))
+		return
+	
+	var idx = selected.get_meta("index", -1)
+	if idx < 0 or idx >= sku_database.size():
+		_append_log(_log("log.error_invalid_activate_index"))
+		return
+	
+	var sku = sku_database[idx]
+	if sku.status == "active":
+		_append_log(_log("log.warning_sku_already_active", [sku.sku_id]))
+		return
+	
+	sku.status = "active"
+	sku.modified_time = Time.get_unix_time_from_system()
+	sku.pending_until = 0
+	
+	_refresh_sku_tree()
+	_refresh_test_sku_option()
+	_exit_edit_mode()
+	
+	_append_log(_log("log.sku_activated_detail", [sku.sku_name, sku.sku_id]))
+
+func _on_check_pending_status():
+	var current_time = Time.get_unix_time_from_system()
+	var has_changed = false
+	
+	for sku in sku_database:
+		if sku.status == "pending" and sku.pending_until > 0 and current_time >= sku.pending_until:
+			sku.status = "active"
+			sku.pending_until = 0
+			sku.modified_time = current_time
+			has_changed = true
+			_append_log(_log("log.sku_auto_activated", [sku.sku_id]))
+	
+	if has_changed:
+		_refresh_sku_tree()
+		_refresh_test_sku_option()
+
+func _on_export_sku():
+	_append_log(_log("log.click_export_sku_list"))
+	
+	DisplayServer.file_dialog_show(
+		_t("filedialog.title.export_sku_json"),
+		"",
+		"sku_list.json",
+		false,
+		DisplayServer.FILE_DIALOG_MODE_SAVE_FILE,
+		PackedStringArray(["*.json"]),
+		_on_export_sku_file_selected
+	)
+
+func _on_export_sku_file_selected(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
+	if not status or selected_paths.is_empty():
+		_append_log(_log("log.export_cancelled"))
+		return
+	
+	var file_path = selected_paths[0]
+	
+	var export_data = []
+	for sku in sku_database:
+		export_data.append(sku.to_dict())
+	
+	var json_string = JSON.stringify(export_data, "  ")
+	
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	if file:
+		file.store_string(json_string)
+		file.close()
+		_append_log(_log("log.sku_exported_to_detail", [file_path]))
+	else:
+		_append_log(_log("log.error_save_file_failed", [file_path]))
+
+func _on_import_sku():
+	_append_log(_log("log.click_import_sku_list"))
+	
+	DisplayServer.file_dialog_show(
+		_t("filedialog.title.import_sku_json"),
+		"",
+		"",
+		false,
+		DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
+		PackedStringArray(["*.json"]),
+		_on_import_sku_file_selected
+	)
+
+func _on_import_sku_file_selected(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
+	if not status or selected_paths.is_empty():
+		_append_log(_log("log.import_cancelled"))
+		return
+	
+	var file_path = selected_paths[0]
+	
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	if not file:
+		_append_log(_log("log.error_open_file_failed", [file_path]))
+		return
+	
+	var json_string = file.get_as_text()
+	file.close()
+	
+	var json = JSON.new()
+	var parse_result = json.parse(json_string)
+	if parse_result != OK:
+		_append_log(_log("log.error_json_parse_failed_detail", [json.get_error_message()]))
+		return
+	
+	var data = json.data
+	if not data is Array:
+		_append_log(_log("log.error_json_invalid_format"))
+		return
+	
+	var imported_count = 0
+	sku_database.clear()
+	
+	for item in data:
+		if item is Dictionary:
+			var sku = IAPSKUData.from_dict(item)
+			sku_database.append(sku)
+			imported_count += 1
+	
+	_refresh_sku_tree()
+	_refresh_test_sku_option()
+	
+	_append_log(_log("log.sku_imported_from_detail", [file_path, imported_count]))
+
+func _on_export_csv():
+	_append_log(_log("log.click_export_csv_detail"))
+	
+	DisplayServer.file_dialog_show(
+		"å¯¼åºSKUåè¡¨ä¸ºCSV",
+		"",
+		"sku_list.csv",
+		false,
+		DisplayServer.FILE_DIALOG_MODE_SAVE_FILE,
+		PackedStringArray(["*.csv"]),
+		_on_export_csv_file_selected
+	)
+
+func _on_export_csv_file_selected(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
+	if not status or selected_paths.is_empty():
+		_append_log(_log("log.csv_export_cancelled"))
+		return
+	
+	var file_path = selected_paths[0]
+	
+	var csv_content = "id,name,price,provider,status,pending_until\n"
+	
+	for sku in sku_database:
+		csv_content += "%s,%s,%s,%s,%s,%d\n" % [
+			sku.sku_id,
+			sku.sku_name,
+			sku.sku_price,
+			sku.provider,
+			sku.status,
+			sku.pending_until
+		]
+	
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	if file:
+		file.store_string(csv_content)
+		file.close()
+		_append_log(_log("log.csv_exported_to_detail", [file_path]))
+	else:
+		_append_log(_log("log.error_save_csv_failed", [file_path]))
+
+func _on_import_csv():
+	_append_log(_log("log.click_import_csv_detail"))
+	
+	DisplayServer.file_dialog_show(
+		"ä»CSVå¯¼å¥SKUåè¡¨",
+		"",
+		"",
+		false,
+		DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
+		PackedStringArray(["*.csv"]),
+		_on_import_csv_file_selected
+	)
+
+func _on_import_csv_file_selected(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
+	if not status or selected_paths.is_empty():
+		_append_log(_log("log.csv_import_cancelled"))
+		return
+	
+	var file_path = selected_paths[0]
+	
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	if not file:
+		_append_log(_log("log.error_open_csv_failed", [file_path]))
+		return
+	
+	var lines = file.get_as_text().split("\n")
+	file.close()
+	
+	var imported_count = 0
+	sku_database.clear()
+	
+	for i in range(1, lines.size()):
+		var line = lines[i].strip_edges()
+		if line.is_empty():
+			continue
+		
+		var parts = line.split(",")
+		if parts.size() >= 4:
+			var sku_id = parts[0].strip_edges()
+			var sku_name = parts[1].strip_edges()
+			var sku_price = parts[2].strip_edges()
+			var provider = parts[3].strip_edges() if parts.size() > 3 else "Google"
+			var sku_status = parts[4].strip_edges() if parts.size() > 4 else "active"
+			
+			if sku_id.is_empty() or sku_name.is_empty():
+				continue
+			
+			var sku = IAPSKUData.new(sku_id, sku_name, sku_price, provider, sku_status)
+			if parts.size() > 5 and parts[5].strip_edges().is_valid_int():
+				sku.pending_until = parts[5].strip_edges().to_int()
+			
+			sku_database.append(sku)
+			imported_count += 1
+	
+	_refresh_sku_tree()
+	_refresh_test_sku_option()
+	
+	_append_log(_log("log.csv_imported_from_detail", [file_path, imported_count]))
+
+# ===================== æ¨¡å4ï¼æµè¯æ¨¡æåº =====================
+func _on_simulate_success():
+	_append_log(_log("log.click_simulate_purchase"))
+	
+	if test_sku_option.selected < 0:
+		_append_log(_log("log.warning_select_sku_first_purchase"))
+		return
+	
+	var sku_index = -1
+	var selected_text = test_sku_option.get_item_text(test_sku_option.selected)
+	
+	for i in range(sku_database.size()):
+		var sku = sku_database[i]
+		if selected_text.find(sku.sku_id) >= 0:
+			sku_index = i
+			break
+	
+	if sku_index >= 0:
+		var sku = sku_database[sku_index]
+		_append_log(_log("log.purchase_simulated_success", [sku.sku_name, sku.sku_id]))
+	else:
+		_append_log(_log("log.purchase_simulated"))
+
+func _on_simulate_no_stock():
+	_append_log(_log("log.click_simulate_out_of_stock"))
+	_append_log(_log("log.simulate_out_of_stock"))
+
+func _on_simulate_cancel():
+	_append_log(_log("log.click_simulate_cancel"))
+	_append_log(_log("log.simulate_user_cancelled"))
+
+func _on_reset_test():
+	_append_log(_log("log.click_reset_test"))
+	_append_log(_log("log.test_status_reset"))
+
+func _on_debug_toggled(checked: bool):
+	is_debug_mode = checked
+	_append_log(_log("log.debug_mode_toggle", [("å¼å? if checked else "å³é­")]))
+
+# ===================== æ¨¡å5ï¼æ¥å¿è¾åºåº =====================
+func _on_clear_log():
+	_append_log(_log("log.log_cleared"))
+	log_text.text = ""
+	_append_log(_log("log.log_cleared"))
+
+func _on_export_log():
+	_append_log(_log("log.click_export_log"))
+	
+	var date_str = Time.get_datetime_string_from_system().replace(" ", "_").replace(":", "-")
+	var default_name = "iap_log_%s.txt" % date_str
+	
+	DisplayServer.file_dialog_show(
+		_t("filedialog.title.export_log"),
+		"",
+		default_name,
+		false,
+		DisplayServer.FILE_DIALOG_MODE_SAVE_FILE,
+		PackedStringArray(["*.txt"]),
+		_on_export_log_file_selected
+	)
+
+func _on_export_log_file_selected(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
+	if not status or selected_paths.is_empty():
+		_append_log(_log("log.log_export_cancelled"))
+		return
+	
+	var file_path = selected_paths[0]
+	
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	if file:
+		file.store_string(log_text.text)
+		file.close()
+		_append_log(_log("log.log_exported_to_detail", [file_path]))
+	else:
+		_append_log(_log("log.error_save_log_failed", [file_path]))
+
+# ===================== æ¨¡å6ï¼æå¡ç«¯éç½®å?=====================
+func _on_server_provider_selected(index: int):
+	_append_log(_log("log.switch_provider_config", [server_provider.get_item_text(index)]))
+	
+	google_config_container.visible = (index == 0)
+	apple_config_container.visible = (index == 1)
+	huawei_config_container.visible = (index == 2)
+
+func _collect_server_config():
+	var provider_name = server_provider.get_item_text(server_provider.selected)
+	
+	server_config = {
+		"provider": provider_name,
+		"environment": server_env.get_item_text(server_env.selected),
+		"google": {
+			"key_path": google_key_path.text,
+			"package_name": google_package_name.text
+		},
+		"apple": {
+			"issuer_id": apple_issuer_id.text,
+			"key_id": apple_key_id.text,
+			"bundle_id": apple_bundle_id.text,
+			"key_path": apple_key_path.text
+		},
+		"huawei": {
+			"api_key": huawei_api_key.text,
+			"app_id": huawei_app_id.text
+		}
+	}
+
+func _load_config_to_ui(config: Dictionary):
+	if config.has("environment"):
+		var env_index = -1
+		for i in range(server_env.item_count):
+			if server_env.get_item_text(i) == config["environment"]:
+				env_index = i
+				break
+		if env_index >= 0:
+			server_env.selected = env_index
+	
+	if config.has("google"):
+		var google = config["google"]
+		if google is Dictionary:
+			google_key_path.text = google.get("key_path", "")
+			google_package_name.text = google.get("package_name", "")
+	
+	if config.has("apple"):
+		var apple = config["apple"]
+		if apple is Dictionary:
+			apple_issuer_id.text = apple.get("issuer_id", "")
+			apple_key_id.text = apple.get("key_id", "")
+			apple_bundle_id.text = apple.get("bundle_id", "")
+			apple_key_path.text = apple.get("key_path", "")
+	
+	if config.has("huawei"):
+		var huawei = config["huawei"]
+		if huawei is Dictionary:
+			huawei_api_key.text = huawei.get("api_key", "")
+			huawei_app_id.text = huawei.get("app_id", "")
+
+func _on_select_google_key():
+	_append_log(_log("log.click_select_google_key"))
+	
+	DisplayServer.file_dialog_show(
+		"éæ©Googleæå¡è´¦å·å¯é¥æä»¶",
+		"",
+		"",
+		false,
+		DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
+		PackedStringArray(["*.json"]),
+		_on_select_google_key_file
+	)
+
+func _on_select_google_key_file(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
+	if not status or selected_paths.is_empty():
+		_append_log(_log("log.file_selection_cancelled"))
+		return
+	
+	var file_path = selected_paths[0]
+	google_key_path.text = file_path
+	_append_log(_log("log.google_key_selected", [file_path]))
+
+func _on_select_apple_key():
+	_append_log(_log("log.click_select_apple_key"))
+	
+	DisplayServer.file_dialog_show(
+		"éæ©Appleç§é¥æä»¶ (.p8)",
+		"",
+		"",
+		false,
+		DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
+		PackedStringArray(["*.p8", "*.*"]),
+		_on_select_apple_key_file
+	)
+
+func _on_select_apple_key_file(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
+	if not status or selected_paths.is_empty():
+		_append_log(_log("log.file_selection_cancelled"))
+		return
+	
+	var file_path = selected_paths[0]
+	apple_key_path.text = file_path
+	_append_log(_log("log.apple_key_selected", [file_path]))
+
+func _on_save_server_config_file_selected(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
+	if not status or selected_paths.is_empty():
+		_append_log(_log("log.save_config_cancelled"))
+		return
+	
+	var file_path = selected_paths[0]
+	
+	var json_string = JSON.stringify(server_config, "  ")
+	
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	if file:
+		file.store_string(json_string)
+		file.close()
+		_append_log(_log("log.config_saved_to", [file_path]))
+	else:
+		_append_log(_log("log.error_save_config_failed", [file_path]))
+
+func _on_load_server_config():
+	_append_log(_log("log.click_load_config"))
+	
+	DisplayServer.file_dialog_show(
+		_t("filedialog.title.load_server_config"),
+		"",
+		"",
+		false,
+		DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
+		PackedStringArray(["*.json"]),
+		_on_load_server_config_file_selected
+	)
+
+func _on_load_server_config_file_selected(status: bool, selected_paths: PackedStringArray, _selected_filter_index: int):
+	if not status or selected_paths.is_empty():
+		_append_log(_log("log.load_config_cancelled"))
+		return
+	
+	var file_path = selected_paths[0]
+	
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	if not file:
+		_append_log(_log("log.error_open_config_file", [file_path]))
+		return
+	
+	var json_string = file.get_as_text()
+	file.close()
+	
+	var json = JSON.new()
+	var parse_result = json.parse(json_string)
+	if parse_result != OK:
+		_append_log(_log("log.error_config_json_parse_failed", [json.get_error_message()]))
+		return
+	
+	var data = json.data
+	if not data is Dictionary:
+		_append_log(_log("log.error_config_invalid_format"))
+		return
+	
+	server_config = data
+	_load_config_to_ui(server_config)
+	
+	if data.has("provider"):
+		var provider_index = -1
+		for i in range(server_provider.item_count):
+			if server_provider.get_item_text(i) == data["provider"]:
+				provider_index = i
+				break
+		if provider_index >= 0:
+			server_provider.selected = provider_index
+			_on_server_provider_selected(provider_index)
+	
+	_append_log(_log("log.config_loaded", [file_path]))
+
+func _on_test_connection():
+	_append_log(_log("log.click_test_connection"))
+	
+	var provider_name = server_provider.get_item_text(server_provider.selected)
+	var env_name = server_env.get_item_text(server_env.selected)
+	
+	_append_log(_log("log.test_connection", [provider_name, env_name]))
+	_append_log(_log("log.test_connection_result", [provider_name, env_name]))
+
+# ===================== æ¨¡å 7ï¼éªåæµè¯å·¥å·åº =====================
+func _on_module7_provider_option_selected(index: int):
+	_append_log(_log("log.switch_verification_provider", [module7_provider_option.get_item_text(index)]))
+	
+	module7_google_container.visible = (index == 0)
+	module7_apple_container.visible = (index == 1)
+	module7_huawei_container.visible = (index == 2)
+	
+	# åæ¢æå¡åæ¶ï¼æ¸ç©ºææè¾å¥æ¡ï¼å¯éï¼
+	_clear_module7_inputs()
+
+func _clear_module7_inputs():
+	"""æ¸ç©ºæ¨¡å 7 ææè¾å¥æ¡"""
+	if module7_product_id_edit:
+		module7_product_id_edit.text = ""
+	if module7_token_edit:
+		module7_token_edit.text = ""
+	if module7_order_id_edit:
+		module7_order_id_edit.text = ""
+	if module7_apple_product_id_edit:
+		module7_apple_product_id_edit.text = ""
+	if module7_transaction_id_edit:
+		module7_transaction_id_edit.text = ""
+	if module7_original_transaction_id_edit:
+		module7_original_transaction_id_edit.text = ""
+	if module7_apple_order_id_edit:
+		module7_apple_order_id_edit.text = ""
+	if module7_huawei_product_id_edit:
+		module7_huawei_product_id_edit.text = ""
+	if module7_huawei_token_edit:
+		module7_huawei_token_edit.text = ""
+	if module7_huawei_order_id_edit:
+		module7_huawei_order_id_edit.text = ""
+
+func _on_test_verification():
+	_append_log(_log("log.click_simulate_verify"))
+	
+	var provider_name = module7_provider_option.get_item_text(module7_provider_option.selected)
+	var product_id = ""
+	var purchase_token = ""
+	var order_id = ""
+	
+	match module7_provider_option.selected:
+		0:
+			product_id = module7_product_id_edit.text.strip_edges()
+			purchase_token = module7_token_edit.text.strip_edges()
+			order_id = module7_order_id_edit.text.strip_edges()
+		1:
+			product_id = module7_apple_product_id_edit.text.strip_edges()
+			purchase_token = module7_transaction_id_edit.text.strip_edges()
+			order_id = module7_apple_order_id_edit.text.strip_edges()
+		2:
+			product_id = module7_huawei_product_id_edit.text.strip_edges()
+			purchase_token = module7_huawei_token_edit.text.strip_edges()
+			order_id = module7_huawei_order_id_edit.text.strip_edges()
+	
+	if product_id.is_empty():
+		_append_log(_log("log.error_product_id_empty"))
+		return
+	
+	if purchase_token.is_empty():
+		_append_log(_log("log.error_token_empty"))
+		return
+	
+	var token_preview = purchase_token.left(8) + "..." if purchase_token.length() > 8 else purchase_token
+	
+	_append_log(_log("log.simulate_verify", [product_id, token_preview, provider_name]))
+	
+	var response = {
+		"code": 0,
+		"message": "success",
+		"data": {
+			"product_id": product_id,
+			"purchase_token": purchase_token,
+			"order_id": order_id if not order_id.is_empty() else "N/A",
+			"provider": provider_name,
+			"verification_status": "valid",
+			"purchase_state": 0,
+			"consumption_state": 0,
+			"timestamp": Time.get_datetime_string_from_system()
+		}
+	}
+	
+	var json_string = JSON.stringify(response, "  ")
+	module7_response_text.text = json_string
+	
+	_append_log(_log("log.simulate_verify_detail", [product_id, token_preview]))
+
+func _on_clear_test_response():
+	_append_log(_log("log.click_clear_response"))
+	module7_response_text.text = ""
+	_append_log(_log("log.response_cleared"))
+
+# ===================== æ¨¡å 3ï¼SKU è°è¯æ¨¡å¼ =====================
+func _on_sku_debug_mode_toggled(checked: bool):
+	is_sku_debug_mode = checked
+	btn_manual_sync.disabled = not checked
+	
+	# SKU ç®¡çæé®ä»å¨è°è¯æ¨¡å¼ä¸æ¾ç¤ºåå¯ç¨
+	btn_add_new_sku.visible = checked
+	btn_delete_sku.visible = checked
+	btn_clear_sku_list.visible = checked
+	btn_add_new_sku.disabled = not checked
+	btn_delete_sku.disabled = not checked
+	btn_clear_sku_list.disabled = not checked
+	
+	_append_log(_log("log.sku_debug_mode_status", [("å¼å? if checked else "å³é­")]))
+
+# ===================== è¾å©å½æ°ï¼è´¦æ·éç½®è·å?=====================
+func _get_current_account_config() -> Dictionary:
+	var selected_index = account_selector.selected
+	if selected_index < 0 or selected_index >= server_accounts.size():
+		return _create_default_account()
+	return server_accounts[selected_index]
+
+# ===================== è¾å©å½æ°ï¼æå¡åéç½®éªè¯ =====================
+func _validate_provider_config(provider: String, account_data: Dictionary) -> Dictionary:
+	var errors: Array = []
+	
+	match provider:
+		"Google Play":
+			var google = account_data.get("google", {})
+			if google is Dictionary:
+				var package_name = str(google.get("package_name", "")).strip_edges()
+				var key_path = str(google.get("key_path", "")).strip_edges()
+				
+				if package_name.is_empty():
+					errors.append("Google Play: ååä¸è½ä¸ºç©º")
+				if key_path.is_empty():
+					errors.append("Google Play: å¯é¥æä»¶è·¯å¾ä¸è½ä¸ºç©º")
+				elif not FileAccess.file_exists(key_path):
+					errors.append("Google Play: å¯é¥æä»¶ä¸å­å¨ï¼%s" % key_path)
+		
+		"Apple App Store":
+			var apple = account_data.get("apple", {})
+			if apple is Dictionary:
+				var issuer_id = str(apple.get("issuer_id", "")).strip_edges()
+				var key_id = str(apple.get("key_id", "")).strip_edges()
+				var bundle_id = str(apple.get("bundle_id", "")).strip_edges()
+				var key_path = str(apple.get("key_path", "")).strip_edges()
+				
+				if issuer_id.is_empty():
+					errors.append("Apple App Store: Issuer ID ä¸è½ä¸ºç©º")
+				if key_id.is_empty():
+					errors.append("Apple App Store: Key ID ä¸è½ä¸ºç©º")
+				if bundle_id.is_empty():
+					errors.append("Apple App Store: Bundle ID ä¸è½ä¸ºç©º")
+				if key_path.is_empty():
+					errors.append("Apple App Store: ç§é¥æä»¶è·¯å¾ä¸è½ä¸ºç©º")
+				elif not FileAccess.file_exists(key_path):
+					errors.append("Apple App Store: ç§é¥æä»¶ä¸å­å¨ï¼%s" % key_path)
+				elif not key_path.ends_with(".p8"):
+					errors.append("Apple App Store: ç§é¥æä»¶å¿é¡»æ?p8 æ ¼å¼")
+		
+		"Huawei AppGallery":
+			var huawei = account_data.get("huawei", {})
+			if huawei is Dictionary:
+				var app_id = str(huawei.get("app_id", "")).strip_edges()
+				var api_key = str(huawei.get("api_key", "")).strip_edges()
+				
+				if app_id.is_empty():
+					errors.append("Huawei AppGallery: åºç¨ ID ä¸è½ä¸ºç©º")
+				if api_key.is_empty():
+					errors.append("Huawei AppGallery: API å¯é¥ä¸è½ä¸ºç©º")
+	
+	return {
+		"valid": errors.is_empty(),
+		"errors": errors
+	}
+
+func _on_manual_sync():
+	_append_log(_log("log.click_manual_sync"))
+	
+	# ç¦ç¨æé®é²æ­¢éå¤ç¹å»
+	btn_manual_sync.disabled = true
+	
+	# è·åæå¡åç­éå¨ç¶æ?
+	var filter_provider = ""
+	if sku_provider_filter.selected > 0:
+		filter_provider = sku_provider_filter.get_item_text(sku_provider_filter.selected)
+	
+	_append_log(_log("log.manual_sync_filter", [("å¨é¨" if filter_provider.is_empty() else filter_provider)]))
+	
+	# è·åå½åè´¦æ·éç½®
+	var account_data = _get_current_account_config()
+	
+	# æ ¹æ®ç­éå¨éªè¯å¯¹åºçæå¡åéç½®
+	var providers_to_check = []
+	if filter_provider.is_empty():
+		# ç­é?å¨é¨"ï¼éªè¯æææå¡å
+		providers_to_check = ["Google Play", "Apple App Store", "Huawei AppGallery"]
+	else:
+		# ç­éç¹å®æå¡åï¼åªéªè¯è¯¥æå¡å
+		match filter_provider:
+			"Google":
+				providers_to_check = ["Google Play"]
+			"Apple":
+				providers_to_check = ["Apple App Store"]
+			"Huawei":
+				providers_to_check = ["Huawei AppGallery"]
+	
+	# éªè¯ææéè¦çæå¡åéç½?
+	var all_errors = []
+	for provider in providers_to_check:
+		var validation_result = _validate_provider_config(provider, account_data)
+		if not validation_result["valid"]:
+			all_errors.append_array(validation_result["errors"])
+	
+	# å¦ææéè¯¯ï¼æ¾ç¤ºå¹¶ä¸­æ­?
+	if not all_errors.is_empty():
+		var error_message = "æå¨åæ­¥å¤±è´¥ï¼éç½®ä¸å®æ´\n" + String("\n").join(all_errors)
+		validation_warning_dialog.dialog_text = error_message
+		validation_warning_dialog.popup_centered()
+		_append_log(_log("log.manual_sync_failed", [String("; ").join(all_errors)]))
+		btn_manual_sync.disabled = false
+		return
+	
+	# éªè¯éè¿ï¼æ§è¡åæ­?
+	var current_time = Time.get_unix_time_from_system()
+	var sync_count = 0
+	var skipped_count = 0
+	
+	for sku in sku_database:
+		# æ ¹æ®ç­éæ¡ä»¶è¿æ»?
+		if not filter_provider.is_empty() and sku.provider != filter_provider:
+			continue
+		
+		# åªå¤ç?pending ç¶æç SKU
+		if sku.status == "pending":
+			if sku.pending_until > 0 and current_time >= sku.pending_until:
+				# å·²è¶è¿å¾çææ¶é´ï¼è®¾ç½®ä¸º active
+				sku.status = "active"
+				sku.pending_until = 0
+				sku.modified_time = current_time
+				sync_count += 1
+				_append_log(_log("log.manual_sync_sku", [sku.sku_name, sku.sku_id]))
+			else:
+				# è¿æªå°çææ¶é?
+				skipped_count += 1
+				if sku.pending_until > 0:
+					var time_left = sku.pending_until - current_time
+					var hours_left = int(time_left / 3600)
+					var minutes_left = int((time_left % 3600) / 60)
+					_append_log(_log("log.sku_not_yet_active_detail", [sku.sku_id, hours_left, minutes_left]))
+				else:
+					_append_log(_log("log.sku_keep_pending", [sku.sku_id]))
+	
+	# å·æ°æ¾ç¤º
+	if sync_count > 0 or skipped_count > 0:
+		_refresh_sku_tree()
+		_refresh_test_sku_option()
+	
+	_append_log(_log("log.manual_sync_complete", [sync_count, skipped_count]))
+	btn_manual_sync.disabled = not is_sku_debug_mode
+
+# ===================== æ¨¡å6ï¼éç½®éªè¯?=====================
+func _validate_server_config() -> Dictionary:
+	var errors: Array = []
+	var provider_index = server_provider.selected
+	
+	match provider_index:
+		0:
+			if google_package_name.text.strip_edges().is_empty():
+				errors.append("Google Play: ååä¸è½ä¸ºç©º")
+			if google_key_path.text.strip_edges().is_empty():
+				errors.append("Google Play: å¯é¥æä»¶è·¯å¾ä¸è½ä¸ºç©º")
+			elif not FileAccess.file_exists(google_key_path.text.strip_edges()):
+				errors.append("Google Play: å¯é¥æä»¶ä¸å­å?)
+		1:
+			if apple_issuer_id.text.strip_edges().is_empty():
+				errors.append("Apple App Store: Issuer IDä¸è½ä¸ºç©º")
+			if apple_key_id.text.strip_edges().is_empty():
+				errors.append("Apple App Store: Key IDä¸è½ä¸ºç©º")
+			if apple_bundle_id.text.strip_edges().is_empty():
+				errors.append("Apple App Store: Bundle IDä¸è½ä¸ºç©º")
+			if apple_key_path.text.strip_edges().is_empty():
+				errors.append("Apple App Store: ç§é¥æä»¶è·¯å¾ä¸è½ä¸ºç©º")
+			elif not FileAccess.file_exists(apple_key_path.text.strip_edges()):
+				errors.append("Apple App Store: ç§é¥æä»¶ä¸å­å?)
+			elif not apple_key_path.text.strip_edges().ends_with(".p8"):
+				errors.append("Apple App Store: ç§é¥æä»¶æ©å±åå¿é¡»æ¯.p8")
+		2:
+			if huawei_api_key.text.strip_edges().is_empty():
+				errors.append("Huawei AppGallery: APIå¯é¥ä¸è½ä¸ºç©º")
+			if huawei_app_id.text.strip_edges().is_empty():
+				errors.append("Huawei AppGallery: åºç¨IDä¸è½ä¸ºç©º")
+	
+	return {
+		"valid": errors.is_empty(),
+		"errors": errors
+	}
+
+func _on_save_server_config():
+	_append_log(_log("log.click_save_server_config"))
+	
+	var validation_result = _validate_server_config()
+	if not validation_result["valid"]:
+		var error_message = "éç½®éªè¯å¤±è´¥ï¼\n" + String("\n").join(validation_result["errors"])
+		validation_warning_dialog.dialog_text = error_message
+		validation_warning_dialog.popup_centered()
+		_append_log(_log("log.config_save_failed_details", [String("; ").join(validation_result["errors"])]))
+		return
+	
+	_collect_server_config()
+	
+	DisplayServer.file_dialog_show(
+		_t("filedialog.title.save_server_config"),
+		"",
+		"iap_server_config.json",
+		false,
+		DisplayServer.FILE_DIALOG_MODE_SAVE_FILE,
+		PackedStringArray(["*.json"]),
+		_on_save_server_config_file_selected
+	)
+
+# ===================== æ¨¡å6ï¼å¤è´¦æ·ç®¡ç =====================
+func _load_accounts():
+	if not FileAccess.file_exists(ACCOUNTS_FILE_PATH):
+		server_accounts = [_create_default_account()]
+		_save_accounts()
+		return
+	
+	var file = FileAccess.open(ACCOUNTS_FILE_PATH, FileAccess.READ)
+	if not file:
+		_append_log(_log("log.error_open_account_file"))
+		server_accounts = [_create_default_account()]
+		return
+	
+	var json_string = file.get_as_text()
+	file.close()
+	
+	var json = JSON.new()
+	var parse_result = json.parse(json_string)
+	if parse_result != OK:
+		_append_log(_log("log.error_account_file_parse_failed"))
+		server_accounts = [_create_default_account()]
+		return
+	
+	var data = json.data
+	if data.has("accounts") and data["accounts"] is Array:
+		server_accounts = data["accounts"]
+	else:
+		server_accounts = [_create_default_account()]
+
+func _save_accounts():
+	var data = {"accounts": server_accounts}
+	
+	var file = FileAccess.open(ACCOUNTS_FILE_PATH, FileAccess.WRITE)
+	if not file:
+		_append_log(_log("log.error_save_account_failed"))
+		return
+	
+	var json = JSON.new()
+	file.store_string(json.stringify(data, "\t"))
+	file.close()
+	_append_log(_log("log.account_data_saved"))
+
+func _create_default_account() -> Dictionary:
+	# ä½¿ç¨æ¬å°åçé»è®¤è´¦æ·åç§°
+	var default_account_name = "é»è®¤è´¦æ·"
+	if localization_data.has("module6") and localization_data["module6"].has("default_account_name"):
+		default_account_name = localization_data["module6"]["default_account_name"]
+	
+	return {
+		"name": default_account_name,
+		"provider": "Google Play",
+		"google": {
+			"package_name": "",
+			"key_path": ""
+		},
+		"apple": {
+			"issuer_id": "",
+			"key_id": "",
+			"bundle_id": "",
+			"key_path": ""
+		},
+		"huawei": {
+			"app_id": "",
+			"api_key": ""
+		},
+		"custom": {
+			"url": ""
+		}
+	}
+
+func _refresh_account_selector():
+	account_selector.clear()
+	for account in server_accounts:
+		var display_name = account["name"]
+		# å¦ææ¯é»è®¤è´¦æ·ï¼ä½¿ç¨å½åè¯­è¨çåç§?
+		if display_name == "é»è®¤è´¦æ·" or display_name == "Default Account":
+			display_name = _t("module6.default_account_name")
+		account_selector.add_item(display_name)
+
+func _load_account_to_ui(account_index: int):
+	if account_index < 0 or account_index >= server_accounts.size():
+		return
+	
+	var account = server_accounts[account_index]
+	
+	var provider_text = account.get("provider", "Google Play")
+	var provider_index = -1
+	for i in range(server_provider.item_count):
+		if server_provider.get_item_text(i) == provider_text:
+			provider_index = i
+			break
+	
+	if provider_index >= 0:
+		server_provider.selected = provider_index
+	else:
+		server_provider.selected = 0
+	
+	google_config_container.visible = (server_provider.selected == 0)
+	apple_config_container.visible = (server_provider.selected == 1)
+	huawei_config_container.visible = (server_provider.selected == 2)
+	
+	var google = account.get("google", {})
+	if google is Dictionary:
+		google_package_name.text = google.get("package_name", "")
+		google_key_path.text = google.get("key_path", "")
+	
+	var apple = account.get("apple", {})
+	if apple is Dictionary:
+		apple_issuer_id.text = apple.get("issuer_id", "")
+		apple_key_id.text = apple.get("key_id", "")
+		apple_bundle_id.text = apple.get("bundle_id", "")
+		apple_key_path.text = apple.get("key_path", "")
+	
+	var huawei = account.get("huawei", {})
+	if huawei is Dictionary:
+		huawei_app_id.text = huawei.get("app_id", "")
+		huawei_api_key.text = huawei.get("api_key", "")
+
+func _collect_current_account() -> Dictionary:
+	return {
+		"name": "",
+		"provider": server_provider.get_item_text(server_provider.selected),
+		"google": {
+			"package_name": google_package_name.text,
+			"key_path": google_key_path.text
+		},
+		"apple": {
+			"issuer_id": apple_issuer_id.text,
+			"key_id": apple_key_id.text,
+			"bundle_id": apple_bundle_id.text,
+			"key_path": apple_key_path.text
+		},
+		"huawei": {
+			"app_id": huawei_app_id.text,
+			"api_key": huawei_api_key.text
+		},
+		"custom": {
+			"url": ""
+		}
+	}
+
+func _on_new_account():
+	_append_log(_log("log.click_new_account"))
+	input_dialog.title = _t("dialog.title_input")
+	input_dialog.dialog_text = _t("dialog.input_account_name")
+	input_field.text = ""
+	input_dialog.popup_centered()
+	
+	input_dialog.confirmed.connect(func():
+		var account_name = input_field.text.strip_edges()
+		if account_name.is_empty():
+			_append_log(_log("log.error_account_name_empty"))
+			return
+		
+		var existing_index = -1
+		for i in range(server_accounts.size()):
+			if server_accounts[i]["name"] == account_name:
+				existing_index = i
+				break
+		
+		if existing_index >= 0:
+			_append_log(_log("log.error_account_name_exists"))
+			return
+		
+		var new_account = _collect_current_account()
+		new_account["name"] = account_name
+		server_accounts.append(new_account)
+		_save_accounts()
+		_refresh_account_selector()
+		account_selector.selected = server_accounts.size() - 1
+		_append_log(_log("log.account_created", [account_name]))
+	)
+
+func _on_save_account():
+	var selected_index = account_selector.selected
+	if selected_index < 0 or selected_index >= server_accounts.size():
+		_append_log(_log("log.error_select_account_first"))
+		return
+	
+	var account_name = server_accounts[selected_index]["name"]
+	var current_data = _collect_current_account()
+	current_data["name"] = account_name
+	server_accounts[selected_index] = current_data
+	_save_accounts()
+	_append_log(_log("log.account_saved", [account_name]))
+
+func _on_delete_account():
+	var selected_index = account_selector.selected
+	if selected_index < 0 or selected_index >= server_accounts.size():
+		_append_log(_log("log.error_select_account_first"))
+		return
+	
+	if server_accounts.size() <= 1:
+		_append_log(_log("log.error_at_least_one_account"))
+		return
+	
+	var account_name = server_accounts[selected_index]["name"]
+	confirm_dialog.title = _t("dialog.title_confirm")
+	confirm_dialog.dialog_text = _t("dialog.confirm_delete_account").format({"0": account_name})
+	confirm_dialog.popup_centered()
+	
+	confirm_dialog.confirmed.connect(func():
+		server_accounts.remove_at(selected_index)
+		_save_accounts()
+		_refresh_account_selector()
+		if account_selector.selected < 0 and server_accounts.size() > 0:
+			account_selector.selected = 0
+			_load_account_to_ui(0)
+		_append_log(_log("log.account_deleted", [account_name]))
+	)
+
+func _on_rename_account():
+	var selected_index = account_selector.selected
+	if selected_index < 0 or selected_index >= server_accounts.size():
+		_append_log(_log("log.error_select_account_first"))
+		return
+	
+	var old_name = server_accounts[selected_index]["name"]
+	input_dialog.title = _t("dialog.title_input")
+	input_dialog.dialog_text = _t("dialog.input_new_name")
+	input_field.text = old_name
+	input_dialog.popup_centered()
+	
+	input_dialog.confirmed.connect(func():
+		var new_name = input_field.text.strip_edges()
+		if new_name.is_empty():
+			_append_log(_log("log.error_account_name_empty"))
+			return
+		
+		if new_name == old_name:
+			_append_log(_log("log.account_name_unchanged"))
+			return
+		
+		var existing_index = -1
+		for i in range(server_accounts.size()):
+			if server_accounts[i]["name"] == new_name:
+				existing_index = i
+				break
+		
+		if existing_index >= 0:
+			_append_log(_log("log.error_account_name_exists"))
+			return
+		
+		server_accounts[selected_index]["name"] = new_name
+		_save_accounts()
+		_refresh_account_selector()
+		account_selector.selected = selected_index
+		_append_log(_log("log.account_renamed", [old_name, new_name]))
+	)
+
+func _on_account_selected(index: int):
+	if index < 0 or index >= server_accounts.size():
+		return
+	
+	var account_name = server_accounts[index]["name"]
+	_append_log(_log("log.switch_account", [account_name]))
+	_load_account_to_ui(index)
+
+func _validate_account_config(account: Dictionary) -> Dictionary:
+	var errors: Array = []
+	var provider_text = account.get("provider", "Google Play")
+	
+	match provider_text:
+		"Google Play":
+			var google = account.get("google", {})
+			if google is Dictionary:
+				var package_name = str(google.get("package_name", "")).strip_edges()
+				var key_path = str(google.get("key_path", "")).strip_edges()
+				
+				if package_name.is_empty():
+					errors.append("Google Play: ååä¸è½ä¸ºç©º")
+				if key_path.is_empty():
+					errors.append("Google Play: å¯é¥æä»¶è·¯å¾ä¸è½ä¸ºç©º")
+				elif not FileAccess.file_exists(key_path):
+					errors.append("Google Play: å¯é¥æä»¶ä¸å­å?)
+		"Apple App Store":
+			var apple = account.get("apple", {})
+			if apple is Dictionary:
+				var issuer_id = str(apple.get("issuer_id", "")).strip_edges()
+				var key_id = str(apple.get("key_id", "")).strip_edges()
+				var bundle_id = str(apple.get("bundle_id", "")).strip_edges()
+				var key_path = str(apple.get("key_path", "")).strip_edges()
+				
+				if issuer_id.is_empty():
+					errors.append("Apple App Store: Issuer IDä¸è½ä¸ºç©º")
+				if key_id.is_empty():
+					errors.append("Apple App Store: Key IDä¸è½ä¸ºç©º")
+				if bundle_id.is_empty():
+					errors.append("Apple App Store: Bundle IDä¸è½ä¸ºç©º")
+				if key_path.is_empty():
+					errors.append("Apple App Store: ç§é¥æä»¶è·¯å¾ä¸è½ä¸ºç©º")
+				elif not FileAccess.file_exists(key_path):
+					errors.append("Apple App Store: ç§é¥æä»¶ä¸å­å?)
+				elif not key_path.ends_with(".p8"):
+					errors.append("Apple App Store: ç§é¥æä»¶å¿é¡»æ?p8æ ¼å¼")
+		"Huawei AppGallery":
+			var huawei = account.get("huawei", {})
+			if huawei is Dictionary:
+				var app_id = str(huawei.get("app_id", "")).strip_edges()
+				var api_key = str(huawei.get("api_key", "")).strip_edges()
+				
+				if app_id.is_empty():
+					errors.append("Huawei AppGallery: åºç¨IDä¸è½ä¸ºç©º")
+				if api_key.is_empty():
+					errors.append("Huawei AppGallery: APIå¯é¥ä¸è½ä¸ºç©º")
+	
+	return {"valid": errors.is_empty(), "errors": errors}
+
+# ===================== è¯­è¨ç³»ç» ====================
+func _setup_language_selector():
+	# åå§åè¯­è¨éæ©å?
+	if language_selector:
+		language_selector.clear()
+		language_selector.add_item(_t("chinese"))
+		language_selector.add_item(_t("english"))
+		
+		# è®¾ç½®å½åéä¸­çè¯­è¨
+		if current_language == "en":
+			language_selector.selected = 1
+		else:
+			language_selector.selected = 0
+		
+		# è¿æ¥ä¿¡å·
+		if not language_selector.item_selected.is_connected(_on_language_changed):
+			language_selector.item_selected.connect(_on_language_changed)
+
+func _load_localization(lang: String):
+	_append_log(_log("log.loading_language_file", [lang]))
+	var file_path = LOCALES_PATH + lang + ".json"
+	_append_log(_log("log.file_path", [file_path]))
+	
+	if not FileAccess.file_exists(file_path):
+		_append_log(_log("log.file_not_found", [file_path]))
+		return
+	
+	_append_log(_log("log.file_exists_reading"))
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	if not file:
+		_append_log(_log("log.file_open_failed"))
+		return
+	
+	var json_string = file.get_as_text()
+	file.close()
+	_append_log(_log("log.file_read_success"))
+	
+	var json = JSON.new()
+	var parse_result = json.parse(json_string)
+	if parse_result == OK:
+		localization_data = json.data
+		_append_log(_log("log.language_load_success", [lang]))
+		# éªè¯ module7 é®æ¯å¦å­å?
+		if localization_data.has("module7"):
+			_append_log(_log("log.key_exists", ["module7"]))
+			if localization_data.module7.has("google") and localization_data.module7.google.has("label"):
+				var product_id_text = localization_data.module7.google.label.product_id
+				_append_log(_log("log.key_value", ["module7.google.label.product_id", product_id_text]))
+		else:
+			_append_log(_log("log.key_not_found", ["module7"]))
+	else:
+		_append_log(_log("log.json_parse_failed", [json.get_error_message()]))
+
+func _t(key: String) -> String:
+	"""
+	è·åæ¬å°åææ¬ï¼æ¯æåµå¥é®è®¿é?
+	ä¾å¦ï¼_t("module1.btn.check_order") ä¼è®¿é?localization_data.module1.btn.check_order
+	"""
+	var keys = key.split(".")
+	var current_data = localization_data
+	
+	for k in keys:
+		if current_data is Dictionary and current_data.has(k):
+			current_data = current_data[k]
+		else:
+			# å¦ææ¾ä¸å°åµå¥é®ï¼è¿ååå§é®ä½ä¸ºé»è®¤å?
+			return key
+	
+	# å¦ææç»å¼æ¯å­ç¬¦ä¸²ï¼è¿åå®ï¼å¦åè¿åé®æ¬èº?
+	if current_data is String:
+		return current_data
+	return key
+
+func _t_with_args(key: String, args: Array) -> String:
+	"""è·åæ¬å°åææ¬å¹¶æ ¼å¼ååæ?""
+	var text = _t(key)
+	if args.size() > 0 and "%" in text:
+		return text % args
+	return text
+
+func _apply_localization():
+	# åºç¨ææ?UI ææ¬çæ¬å°å
+	_append_log(_log("log.applying_localization", [current_language]))
+	# ä½¿ç¨ @onready åéå?get_node_or_null ç»å
+	
+	# ==================== æ¨¡å 1ï¼åºç¡ IAP æä½å?====================
+	if title1:
+		title1.text = _t("module1.title")
+	
+	var label1 = get_node_or_null("MainVBox/Module1_Basic/Row1/Label1")
+	if label1:
+		label1.text = _t("module1.label.test_sku") + ":"
+	
+	var label2 = get_node_or_null("MainVBox/Module1_Basic/Row2/Label2")
+	if label2:
+		label2.text = _t("module1.label.order_id") + ":"
+	
+	if btn_check_order:
+		btn_check_order.text = _t("module1.btn.check_order")
+		btn_check_order.tooltip_text = _t("module1.tooltip.btn_check_order")
+	
+	if btn_clear_inputs:
+		btn_clear_inputs.text = _t("module1.btn.clear_inputs")
+		btn_clear_inputs.tooltip_text = _t("module1.tooltip.btn_clear_inputs")
+	
+	# å ä½ç¬?
+	if order_id_edit:
+		order_id_edit.placeholder_text = _t("module1.placeholder.order_id")
+		order_id_edit.tooltip_text = _t("module1.tooltip.order_id")
+	
+	# ç¶ææ ç­?
+	if operation_status_label:
+		operation_status_label.text = _t("module1.status.waiting")
+		operation_status_label.tooltip_text = _t("module1.tooltip.operation_status")
+	
+	# å·¥å·æç¤º
+	if module1_info:
+		module1_info.tooltip_text = _t("module1.description")
+	
+	# ==================== æ¨¡å 2ï¼è®¡è´¹æå¡æ§å¶åº ====================
+	if title2:
+		title2.text = _t("module2.title")
+	
+	var label_env = get_node_or_null("MainVBox/Module2_Billing/Row1/module2_label1")
+	if label_env:
+		label_env.text = _t("module2.label.env") + ":"
+	
+	var label_service_status = get_node_or_null("MainVBox/Module2_Billing/Row1/module2_label2")
+	if label_service_status:
+		label_service_status.text = _t("module2.label.service_status") + ":"
+	
+	if btn_init_billing:
+		btn_init_billing.text = _t("module2.btn.init_billing")
+		btn_init_billing.tooltip_text = _t("module2.tooltip.btn_init_billing")
+	
+	if btn_refresh_billing:
+		btn_refresh_billing.text = _t("module2.btn.refresh_billing")
+		btn_refresh_billing.tooltip_text = _t("module2.tooltip.btn_refresh_billing")
+	
+	if btn_close_billing:
+		btn_close_billing.text = _t("module2.btn.close_billing")
+		btn_close_billing.tooltip_text = _t("module2.tooltip.btn_close_billing")
+	
+	# æå¡ç¶ææ ç­?
+	if service_status_label:
+		service_status_label.text = _t("module2.service_status.uninitialized")
+		service_status_label.tooltip_text = _t("module2.tooltip.service_status")
+	
+	# ç¯å¢ä¸ææ¡?
+	if env_option:
+		env_option.tooltip_text = _t("module2.tooltip.env")
+	
+	# å·¥å·æç¤º
+	if module2_info:
+		module2_info.tooltip_text = _t("module2.description")
+	
+	# æ´æ°ç¯å¢ä¸ææ¡éé¡¹
+	_update_env_options()
+	
+	# ==================== æ¨¡å 3ï¼SKU ç®¡çå?====================
+	if title3:
+		title3.text = _t("module3.title")
+	
+	var label_sku_id = get_node_or_null("MainVBox/Module3_SKU/Row1/module3_label1")
+	if label_sku_id:
+		label_sku_id.text = _t("module3.label.sku_id") + ":"
+	
+	var label_sku_name = get_node_or_null("MainVBox/Module3_SKU/Row2/module3_label2")
+	if label_sku_name:
+		label_sku_name.text = _t("module3.label.sku_name") + ":"
+	
+	var label_sku_price = get_node_or_null("MainVBox/Module3_SKU/Row3/Label3")
+	if label_sku_price:
+		label_sku_price.text = _t("module3.label.sku_price") + ":"
+	
+	var label_sku_provider = get_node_or_null("MainVBox/Module3_SKU/Row4/Label4")
+	if label_sku_provider:
+		label_sku_provider.text = _t("module3.label.sku_provider") + ":"
+	
+	var label_provider_filter = get_node_or_null("MainVBox/Module3_SKU/FilterRow/FilterLabel")
+	if label_provider_filter:
+		label_provider_filter.text = _t("module3.label.provider_filter") + ":"
+	
+	# æé®
+	if btn_add_sku:
+		btn_add_sku.text = _t("module3.btn.add_sku")
+		btn_add_sku.tooltip_text = _t("module3.tooltip.btn_add_sku")
+	
+	if btn_edit_sku:
+		btn_edit_sku.text = _t("module3.btn.edit_sku")
+		btn_edit_sku.tooltip_text = _t("module3.tooltip.btn_edit_sku")
+	
+	if btn_update_sku:
+		btn_update_sku.text = _t("module3.btn.update_sku")
+		btn_update_sku.tooltip_text = _t("module3.tooltip.btn_update_sku")
+	
+	if btn_deactivate_sku:
+		btn_deactivate_sku.text = _t("module3.btn.deactivate")
+		btn_deactivate_sku.tooltip_text = _t("module3.tooltip.btn_deactivate")
+	
+	if btn_activate_sku:
+		btn_activate_sku.text = _t("module3.btn.activate")
+		btn_activate_sku.tooltip_text = _t("module3.tooltip.btn_activate")
+	
+	if btn_import_sku:
+		btn_import_sku.text = _t("module3.btn.import_json")
+		btn_import_sku.tooltip_text = _t("module3.tooltip.btn_import_json")
+	
+	if btn_export_sku:
+		btn_export_sku.text = _t("module3.btn.export_json")
+		btn_export_sku.tooltip_text = _t("module3.tooltip.btn_export_json")
+	
+	if btn_import_csv:
+		btn_import_csv.text = _t("module3.btn.import_csv")
+		btn_import_csv.tooltip_text = _t("module3.tooltip.btn_import_csv")
+	
+	if btn_export_csv:
+		btn_export_csv.text = _t("module3.btn.export_csv")
+		btn_export_csv.tooltip_text = _t("module3.tooltip.btn_export_csv")
+	
+	if btn_manual_sync:
+		btn_manual_sync.text = _t("module3.btn.manual_sync")
+		btn_manual_sync.tooltip_text = _t("module3.tooltip.btn_manual_sync")
+	
+	# è°è¯æ¨¡å¼æé®
+	var btn_add_new_sku = get_node_or_null("MainVBox/Module3_SKU/Row8/btn_add_new_sku")
+	if btn_add_new_sku:
+		btn_add_new_sku.text = _t("module3.btn.add_new")
+		btn_add_new_sku.tooltip_text = _t("module3.tooltip.btn_add_new")
+	
+	var btn_delete_sku = get_node_or_null("MainVBox/Module3_SKU/Row8/btn_delete_sku")
+	if btn_delete_sku:
+		btn_delete_sku.text = _t("module3.btn.delete")
+		btn_delete_sku.tooltip_text = _t("module3.tooltip.btn_delete")
+	
+	var btn_clear_sku_list = get_node_or_null("MainVBox/Module3_SKU/Row8/btn_clear_sku_list")
+	if btn_clear_sku_list:
+		btn_clear_sku_list.text = _t("module3.btn.clear_list")
+		btn_clear_sku_list.tooltip_text = _t("module3.tooltip.btn_clear_list")
+	
+	# å¤éæ¡
+	if show_inactive_checkbox:
+		show_inactive_checkbox.text = _t("module3.checkbox.show_inactive")
+		show_inactive_checkbox.tooltip_text = _t("module3.tooltip.show_inactive")
+	
+	if debug_mode_checkbox:
+		debug_mode_checkbox.text = _t("module3.checkbox.debug_mode")
+		debug_mode_checkbox.tooltip_text = _t("module3.tooltip.debug_mode")
+	
+	# Tree åæ é¢?
+	if sku_tree:
+		sku_tree.set_column_title(0, _t("module3.column.id"))
+		sku_tree.set_column_title(1, _t("module3.column.name"))
+		sku_tree.set_column_title(2, _t("module3.column.price"))
+		sku_tree.set_column_title(3, _t("module3.column.provider"))
+		sku_tree.set_column_title(4, _t("module3.column.status"))
+	
+	# è¾å¥æ¡å ä½ç¬¦
+	if sku_id_edit:
+		sku_id_edit.placeholder_text = _t("module3.placeholder.sku_id")
+		sku_id_edit.tooltip_text = _t("module3.tooltip.sku_id")
+	
+	if sku_name_edit:
+		sku_name_edit.placeholder_text = _t("module3.placeholder.sku_name")
+		sku_name_edit.tooltip_text = _t("module3.tooltip.sku_name")
+	
+	if sku_price_edit:
+		sku_price_edit.placeholder_text = _t("module3.placeholder.sku_price")
+		sku_price_edit.tooltip_text = _t("module3.tooltip.sku_price")
+	
+	# æ´æ°æå¡åç­éä¸ææ¡éé¡¹
+	_update_provider_filter_options()
+	
+	if module3_info:
+		module3_info.tooltip_text = _t("module3.description")
+	
+	# ==================== æ¨¡å 4ï¼æµè¯æ¨¡æåº ====================
+	if title4:
+		title4.text = _t("module4.title")
+	
+	if btn_simulate_success:
+		btn_simulate_success.text = _t("module4.btn.simulate_success")
+		btn_simulate_success.tooltip_text = _t("module4.tooltip.btn_simulate_success")
+	
+	if btn_simulate_no_stock:
+		btn_simulate_no_stock.text = _t("module4.btn.simulate_no_stock")
+		btn_simulate_no_stock.tooltip_text = _t("module4.tooltip.btn_simulate_no_stock")
+	
+	if btn_simulate_cancel:
+		btn_simulate_cancel.text = _t("module4.btn.simulate_cancel")
+		btn_simulate_cancel.tooltip_text = _t("module4.tooltip.btn_simulate_cancel")
+	
+	if btn_reset_test:
+		btn_reset_test.text = _t("module4.btn.reset_test")
+		btn_reset_test.tooltip_text = _t("module4.tooltip.btn_reset_test")
+	
+	# å¤éæ¡
+	if debug_checkbox:
+		debug_checkbox.text = _t("module4.checkbox.debug")
+		debug_checkbox.tooltip_text = _t("module4.tooltip.debug")
+	
+	if module4_info:
+		module4_info.tooltip_text = _t("module4.description")
+	
+	# ==================== æ¨¡å 5ï¼æ¥å¿è¾åºåº ====================
+	if title5:
+		title5.text = _t("module5.title")
+	
+	# æ¥å¿ææ¬æ¡?
+	if log_text:
+		log_text.tooltip_text = _t("module5.tooltip.log_text")
+	
+	if btn_clear_log:
+		btn_clear_log.text = _t("module5.btn.clear_log")
+		btn_clear_log.tooltip_text = _t("module5.tooltip.btn_clear_log")
+	
+	if btn_export_log:
+		btn_export_log.text = _t("module5.btn.export_log")
+		btn_export_log.tooltip_text = _t("module5.tooltip.btn_export_log")
+	
+	if module5_info:
+		module5_info.tooltip_text = _t("module5.description")
+	
+	# ==================== æ¨¡å 6ï¼æå¡ç«¯éç½®å?====================
+	if title6:
+		title6.text = _t("module6.title")
+	
+	# è´¦æ·æ ç­¾
+	var account_label = get_node_or_null("MainVBox/Module6_ServerConfig/AccountRow/AccountLabel")
+	if account_label:
+		account_label.text = _t("module6.label.account") + ":"
+	
+	# è´¦æ·ç®¡çæé®
+	if btn_new_account:
+		btn_new_account.text = _t("module6.btn.new_account")
+		btn_new_account.tooltip_text = _t("module6.tooltip.btn_new_account")
+	
+	if btn_save_account:
+		btn_save_account.text = _t("module6.btn.save_account")
+		btn_save_account.tooltip_text = _t("module6.tooltip.btn_save_account")
+	
+	if btn_delete_account:
+		btn_delete_account.text = _t("module6.btn.delete_account")
+		btn_delete_account.tooltip_text = _t("module6.tooltip.btn_delete_account")
+	
+	if btn_rename_account:
+		btn_rename_account.text = _t("module6.btn.rename_account")
+		btn_rename_account.tooltip_text = _t("module6.tooltip.btn_rename_account")
+	
+	# è´¦æ·éæ©å?
+	if account_selector:
+		account_selector.tooltip_text = _t("module6.tooltip.account_selector")
+		# å·æ°è´¦æ·éæ©å¨ä»¥åºç¨æ¬å°å?
+		_refresh_account_selector()
+	
+	# æå¡ååç¯å¢æ ç­¾
+	var server_provider_label = get_node_or_null("MainVBox/Module6_ServerConfig/Row1/module6_label1")
+	if server_provider_label:
+		server_provider_label.text = _t("module6.label.provider") + ":"
+	
+	var env_label = get_node_or_null("MainVBox/Module6_ServerConfig/Row2/module6_label2")
+	if env_label:
+		env_label.text = _t("module6.label.env") + ":"
+	
+	# éç½®æé®
+	if btn_save_server_config:
+		btn_save_server_config.text = _t("module6.btn.save_config")
+		btn_save_server_config.tooltip_text = _t("module6.tooltip.btn_save_config")
+	
+	if btn_load_server_config:
+		btn_load_server_config.text = _t("module6.btn.load_config")
+		btn_load_server_config.tooltip_text = _t("module6.tooltip.btn_load_config")
+	
+	if btn_test_connection:
+		btn_test_connection.text = _t("module6.btn.test_connection")
+		btn_test_connection.tooltip_text = _t("module6.tooltip.btn_test_connection")
+	
+	# æ´æ°æå¡ååç¯å¢ä¸ææ¡éé¡¹
+	_update_server_provider_options()
+	_update_env_options()
+	
+	# Google éç½®å®¹å¨æ ç­¾
+	if module6_product_id_label:
+		module6_product_id_label.text = _t("module6.google.label.key_file_path") + ":"
+	
+	if btn_select_google_key:
+		btn_select_google_key.text = _t("module6.btn.select_file")
+		btn_select_google_key.tooltip_text = _t("module6.tooltip.btn_select_file")
+	
+	if module6_token_label:
+		module6_token_label.text = _t("module6.google.label.package_name") + ":"
+	
+	if module6_info:
+		module6_info.tooltip_text = _t("module6.description")
+	
+	# ==================== æ¨¡å 7ï¼éªåå·¥å·åº ====================
+	if title7:
+		title7.text = _t("module7.title")
+	
+	# æå¡åæ ç­¾åéæ©å?
+	if module7_provider_label:
+		module7_provider_label.text = _t("module7.label.provider") + ":"
+	
+	if module7_provider_option:
+		module7_provider_option.tooltip_text = _t("module7.tooltip.test_provider")
+		# æ´æ°æå¡åéé¡¹
+		module7_provider_option.clear()
+		module7_provider_option.add_item(_t("module7.provider_option.google"))
+		module7_provider_option.add_item(_t("module7.provider_option.apple"))
+		module7_provider_option.add_item(_t("module7.provider_option.huawei"))
+	
+	# Google è¾å¥æ¡ï¼ä½¿ç¨ææå¡ååç»çè¯­è¨é®ï¼
+	if module7_product_id_label:
+		var text = _t("module7.google.label.product_id")
+		module7_product_id_label.text = text + ":"
+		_append_log(_log("log.google_label_set", [text, current_language]))
+	else:
+		_append_log(_log("log.error_module7_label_not_found"))
+	
+	# è°è¯ï¼æ£æ¥èç¹å®éç¶æ?
+	if module7_product_id_label:
+		_append_log(_log("log.node_ref", [str(module7_product_id_label)]))
+		_append_log(_log("log.text_after_set", [module7_product_id_label.text]))
+	
+	if module7_product_id_edit:
+		module7_product_id_edit.placeholder_text = _t("module7.google.placeholder.product_id")
+		module7_product_id_edit.tooltip_text = _t("module7.tooltip.product_id")
+	
+	if module7_token_label:
+		module7_token_label.text = _t("module7.google.label.purchase_token") + ":"
+	
+	if module7_token_edit:
+		module7_token_edit.placeholder_text = _t("module7.google.placeholder.purchase_token")
+		module7_token_edit.tooltip_text = _t("module7.tooltip.purchase_token")
+	
+	if module7_order_id_label:
+		module7_order_id_label.text = _t("module7.google.label.order_id") + ":"
+	
+	if module7_order_id_edit:
+		module7_order_id_edit.placeholder_text = _t("module7.google.placeholder.order_id")
+		module7_order_id_edit.tooltip_text = _t("module7.tooltip.order_id")
+	
+	# Apple è¾å¥æ¡ï¼ä½¿ç¨ææå¡ååç»çè¯­è¨é®ï¼
+	if module7_apple_product_id_label:
+		module7_apple_product_id_label.text = _t("module7.apple.label.product_id") + ":"
+	
+	if module7_apple_product_id_edit:
+		module7_apple_product_id_edit.placeholder_text = _t("module7.apple.placeholder.product_id")
+		module7_apple_product_id_edit.tooltip_text = _t("module7.tooltip.product_id")
+	
+	if module7_transaction_id_label:
+		module7_transaction_id_label.text = _t("module7.apple.label.transaction_id") + ":"
+	
+	if module7_transaction_id_edit:
+		module7_transaction_id_edit.placeholder_text = _t("module7.apple.placeholder.transaction_id")
+		module7_transaction_id_edit.tooltip_text = _t("module7.tooltip.transaction_id")
+	
+	if module7_original_transaction_id_label:
+		module7_original_transaction_id_label.text = _t("module7.apple.label.original_transaction_id") + ":"
+	
+	if module7_original_transaction_id_edit:
+		module7_original_transaction_id_edit.placeholder_text = _t("module7.apple.placeholder.original_transaction_id")
+		module7_original_transaction_id_edit.tooltip_text = _t("module7.tooltip.original_transaction_id")
+	
+	if module7_apple_order_id_label:
+		module7_apple_order_id_label.text = _t("module7.apple.label.order_id") + ":"
+	
+	if module7_apple_order_id_edit:
+		module7_apple_order_id_edit.placeholder_text = _t("module7.apple.placeholder.order_id")
+		module7_apple_order_id_edit.tooltip_text = _t("module7.tooltip.order_id")
+	
+	# åä¸ºè¾å¥æ¡ï¼ä½¿ç¨ææå¡ååç»çè¯­è¨é®ï¼
+	if module7_huawei_product_id_label:
+		var text = _t("module7.huawei.label.product_id")
+		module7_huawei_product_id_label.text = text + ":"
+		_append_log(_log("log.huawei_label_set", [text, current_language]))
+	else:
+		_append_log(_log("log.error_module7_huawei_label_not_found"))
+	
+	# è°è¯ï¼æ£æ¥èç¹å®éç¶æ?
+	if module7_huawei_product_id_label:
+		_append_log(_log("log.node_ref", [str(module7_huawei_product_id_label)]))
+		_append_log(_log("log.text_after_set", [module7_huawei_product_id_label.text]))
+	
+	if module7_huawei_product_id_edit:
+		module7_huawei_product_id_edit.placeholder_text = _t("module7.huawei.placeholder.product_id")
+		module7_huawei_product_id_edit.tooltip_text = _t("module7.tooltip.product_id")
+	
+	if module7_huawei_token_label:
+		module7_huawei_token_label.text = _t("module7.huawei.label.purchase_token") + ":"
+	
+	if module7_huawei_token_edit:
+		module7_huawei_token_edit.placeholder_text = _t("module7.huawei.placeholder.purchase_token")
+		module7_huawei_token_edit.tooltip_text = _t("module7.tooltip.purchase_token")
+	
+	if module7_huawei_order_id_label:
+		module7_huawei_order_id_label.text = _t("module7.huawei.label.order_id") + ":"
+	
+	if module7_huawei_order_id_edit:
+		module7_huawei_order_id_edit.placeholder_text = _t("module7.huawei.placeholder.order_id")
+		module7_huawei_order_id_edit.tooltip_text = _t("module7.tooltip.order_id")
+	
+	# æé®
+	if module7_btn_simulate_verify:
+		module7_btn_simulate_verify.text = _t("module7.btn.simulate_verify")
+		module7_btn_simulate_verify.tooltip_text = _t("module7.tooltip.btn_test_verification")
+	
+	if module7_btn_clear_response:
+		module7_btn_clear_response.text = _t("module7.btn.clear_response")
+		module7_btn_clear_response.tooltip_text = _t("module7.tooltip.btn_clear_response")
+	
+	# ååºæ¾ç¤ºæ¡?
+	if module7_response_text:
+		module7_response_text.tooltip_text = _t("module7.tooltip.test_response_display")
+	
+	_append_log(_log("log.apply_localization_complete"))
+	
+	if module7_info:
+		module7_info.tooltip_text = _t("module7.description")
+	
+	# æ¥å¿è¾åº
+	_append_log(_log("log_plugin_loaded"))
+
+func _update_provider_filter_options():
+	# æ´æ°æå¡åç­éä¸ææ¡
+	if sku_provider_filter:
+		var current_selected = sku_provider_filter.selected
+		sku_provider_filter.clear()
+		var all_text = _t("module3.provider_filter_option.all")
+		var google_text = _t("module3.provider_filter_option.google")
+		var apple_text = _t("module3.provider_filter_option.apple")
+		var huawei_text = _t("module3.provider_filter_option.huawei")
+		_append_log(_log("log.provider_filter_updating", [current_language, all_text]))
+		sku_provider_filter.add_item(all_text)
+		sku_provider_filter.add_item(google_text)
+		sku_provider_filter.add_item(apple_text)
+		sku_provider_filter.add_item(huawei_text)
+		# æ¢å¤ä¹åçéä¸­é¡¹ï¼å¦æè¶åºèå´åéä¸­ç¬¬ä¸ä¸?
+		if current_selected < sku_provider_filter.item_count:
+			sku_provider_filter.selected = current_selected
+		else:
+			sku_provider_filter.selected = 0
+		_append_log(_log("log.provider_filter_options_updated", [current_language]))
+
+func _update_env_options():
+	# æ´æ°ç¯å¢ä¸ææ¡?
+	if server_env:
+		server_env.clear()
+		server_env.add_item(_t("module2.env_option.sandbox"))
+		server_env.add_item(_t("module2.env_option.production"))
+
+func _update_server_provider_options():
+	# æ´æ°æå¡åä¸ææ¡
+	if server_provider:
+		server_provider.clear()
+		server_provider.add_item(_t("module6.provider_option.google"))
+		server_provider.add_item(_t("module6.provider_option.apple"))
+		server_provider.add_item(_t("module6.provider_option.huawei"))
+		server_provider.add_item(_t("module6.provider_option.custom"))
+
+
+func _on_language_changed(index: int):
+	if index == 0:
+		current_language = "zh"
+	else:
+		current_language = "en"
+	
+	_append_log(_log("log.start_language_switch", [_t("language_name")]))
+	_append_log(_log("log.current_language_code", [current_language]))
+	_append_log(_log("log.locales_path", [LOCALES_PATH]))
+	
+	_load_localization(current_language)
+	
+	# æµè¯ï¼ç´æ¥æ£æ?localization_data ä¸­çå?
+	if localization_data.has("module3") and localization_data.module3.has("provider_filter_option"):
+		_append_log(_log("log.test_direct_access", [localization_data.module3.provider_filter_option.all]))
+	
+	_apply_localization()
+	_append_log(_log("log.ui_texts_applied"))
+	
+	# å¼ºå¶å·æ°ä¸ææ¡ä»¥ç¡®ä¿éé¡¹æ´æ°
+	if sku_provider_filter:
+		# åè?_refresh_account_selector çæåæ¹æ³ï¼å®å¨æ¸ç©ºå¹¶éæ°æ·»å?
+		var current_selected = sku_provider_filter.selected
+		sku_provider_filter.clear()
+		sku_provider_filter.selected = -1  # åæ¸é¤éä¸­ç¶æ?
+		
+		# éæ°æ·»å ææéé¡¹
+		sku_provider_filter.add_item(_t("module3.provider_filter_option.all"))
+		sku_provider_filter.add_item(_t("module3.provider_filter_option.google"))
+		sku_provider_filter.add_item(_t("module3.provider_filter_option.apple"))
+		sku_provider_filter.add_item(_t("module3.provider_filter_option.huawei"))
+		
+		# æ¢å¤éä¸­ç¶æ?
+		if current_selected >= 0 and current_selected < sku_provider_filter.item_count:
+			sku_provider_filter.selected = current_selected
+		else:
+			sku_provider_filter.selected = 0
+		
+		_append_log(_log("log.full_refresh_dropdown", [current_language, _t("module3.provider_filter_option.all")]))
+	
+	_save_language_preference()
+	_append_log(_log("log_language_changed", [_t("language_name")]))
+	
+	_append_log(_log("log.language_switch_complete"))
+	
+	# ä½¿ç¨ deferred ç¡®ä¿å¨åºæ¯å®å¨æ´æ°ååå·æ°ä¸æ¬?
+	call_deferred("_force_refresh_dropdown")
+
+func _force_refresh_dropdown():
+	# å»¶è¿å·æ°ä¸ææ¡ï¼ç¡®ä¿å¨åºæ¯å®å¨å è½½åæ§è¡
+	if sku_provider_filter:
+		# åè?_refresh_account_selector çæåæ¹æ³ï¼å®å¨æ¸ç©ºå¹¶éæ°æ·»å?
+		var current_selected = sku_provider_filter.selected
+		sku_provider_filter.clear()
+		sku_provider_filter.selected = -1
+		
+		sku_provider_filter.add_item(_t("module3.provider_filter_option.all"))
+		sku_provider_filter.add_item(_t("module3.provider_filter_option.google"))
+		sku_provider_filter.add_item(_t("module3.provider_filter_option.apple"))
+		sku_provider_filter.add_item(_t("module3.provider_filter_option.huawei"))
+		
+		if current_selected >= 0 and current_selected < sku_provider_filter.item_count:
+			sku_provider_filter.selected = current_selected
+		else:
+			sku_provider_filter.selected = 0
+		
+		_append_log(_log("log.deferred_full_refresh", [current_language, _t("module3.provider_filter_option.all")]))
+
+func _save_language_preference():
+	# ä¿å­è¯­è¨åå¥½å°éç½®æä»?
+	var config_path = "res://addons/google_iap/iap_config.json"
+	var config = {}
+	
+	if FileAccess.file_exists(config_path):
+		var file = FileAccess.open(config_path, FileAccess.READ)
+		if file:
+			var json_string = file.get_as_text()
+			file.close()
+			var json = JSON.new()
+			if json.parse(json_string) == OK:
+				config = json.data
+	
+	config["language"] = current_language
+	
+	var file = FileAccess.open(config_path, FileAccess.WRITE)
+	if file:
+		file.store_string(JSON.stringify(config, "  "))
+		file.close()
+
+func _load_language_preference() -> String:
+	# ä»éç½®æä»¶å è½½è¯­è¨åå¥½
+	var config_path = "res://addons/google_iap/iap_config.json"
+	
+	if FileAccess.file_exists(config_path):
+		var file = FileAccess.open(config_path, FileAccess.READ)
+		if file:
+			var json_string = file.get_as_text()
+			file.close()
+			var json = JSON.new()
+			if json.parse(json_string) == OK:
+				var config = json.data
+				if config.has("language"):
+					return config["language"]
+	
+	# é»è®¤è¿åä¸­æ
+	return "zh"
+
+

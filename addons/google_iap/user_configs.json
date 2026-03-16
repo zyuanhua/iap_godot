@@ -1,0 +1,26 @@
+{
+  "h": {
+    "apple_bundle_id": "",
+    "apple_issuer_id": "",
+    "apple_key_id": "",
+    "apple_key_path": "",
+    "environment": "Production",
+    "google_key_path": "",
+    "google_package_name": "",
+    "huawei_api_key": "",
+    "huawei_app_id": "",
+    "provider": "Google Play"
+  },
+  "默认用户": {
+    "apple_bundle_id": "",
+    "apple_issuer_id": "",
+    "apple_key_id": "",
+    "apple_key_path": "",
+    "environment": "Production",
+    "google_key_path": "",
+    "google_package_name": "",
+    "huawei_api_key": "",
+    "huawei_app_id": "",
+    "provider": "Google Play"
+  }
+}

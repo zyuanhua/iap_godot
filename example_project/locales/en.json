@@ -1,0 +1,40 @@
+{
+	"language_name": "English",
+	
+	# UI Elements
+	"title": "Google IAP Full Example",
+	"coins": "Coins",
+	"vip": "VIP",
+	"vip_not_active": "Not Active",
+	"no_ads": "No Ads",
+	"yes": "Yes",
+	"no": "No",
+	"shop_title": "Shop",
+	
+	# Product Buttons
+	"buy_100_coins": "Buy 100 Coins",
+	"buy_500_coins": "Buy 500 Coins",
+	"buy_vip_month": "Buy 30 Days VIP",
+	"buy_vip_year": "Buy 1 Year VIP",
+	"buy_no_ads": "Buy Permanent No Ads",
+	"buy_sword": "Buy Legendary Sword",
+	
+	# Action Buttons
+	"reset_data": "Reset Data",
+	
+	# Status Messages
+	"data_reset": "Player data has been reset",
+	"purchase_success": "Purchase Successful",
+	"purchase_failed": "Purchase Failed",
+	"purchase_cancelled": "Purchase Cancelled",
+	"purchase_pending": "Processing payment, please complete in Google Play",
+	"item_granted": "Item granted successfully",
+	
+	# Log Messages
+	"log_buying_product": "Purchasing product",
+	"log_purchase_success": "Purchase successful",
+	"log_purchase_failed": "Purchase failed",
+	"log_purchase_cancelled": "Purchase cancelled",
+	"log_purchase_pending": "Purchase pending",
+	"log_item_granted": "Item granted"
+}

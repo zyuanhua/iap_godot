@@ -1,0 +1,117 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8k3j9l2m4n5p6q7r"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_abcde"]
+
+[sub_resource type="Theme" id="Theme_1"]
+default_font_size = 16
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abcde")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_1")
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Google IAP Example"
+horizontal_alignment = 1
+vertical_alignment = 1
+custom_minimum_size = Vector2(0, 50)
+
+[node name="StatsPanel" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 120)
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/StatsPanel"]
+layout_mode = 2
+
+[node name="CoinsLabel" type="Label" parent="VBoxContainer/StatsPanel/VBoxContainer2"]
+layout_mode = 2
+text = "Coins: 0"
+horizontal_alignment = 1
+
+[node name="VipLabel" type="Label" parent="VBoxContainer/StatsPanel/VBoxContainer2"]
+layout_mode = 2
+text = "VIP: Not Active"
+horizontal_alignment = 1
+
+[node name="NoAdsLabel" type="Label" parent="VBoxContainer/StatsPanel/VBoxContainer2"]
+layout_mode = 2
+text = "No Ads: No"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ShopPanel" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/ShopPanel"]
+layout_mode = 2
+
+[node name="ShopTitle" type="Label" parent="VBoxContainer/ShopPanel/VBoxContainer3"]
+layout_mode = 2
+text = "Shop"
+horizontal_alignment = 1
+custom_minimum_size = Vector2(0, 30)
+
+[node name="Buy100CoinsBtn" type="Button" parent="VBoxContainer/ShopPanel/VBoxContainer3"]
+layout_mode = 2
+text = "Buy 100 Coins"
+custom_minimum_size = Vector2(0, 45)
+
+[node name="Buy500CoinsBtn" type="Button" parent="VBoxContainer/ShopPanel/VBoxContainer3"]
+layout_mode = 2
+text = "Buy 500 Coins"
+custom_minimum_size = Vector2(0, 45)
+
+[node name="BuyVipMonthBtn" type="Button" parent="VBoxContainer/ShopPanel/VBoxContainer3"]
+layout_mode = 2
+text = "Buy 30 Days VIP"
+custom_minimum_size = Vector2(0, 45)
+
+[node name="BuyVipYearBtn" type="Button" parent="VBoxContainer/ShopPanel/VBoxContainer3"]
+layout_mode = 2
+text = "Buy 1 Year VIP"
+custom_minimum_size = Vector2(0, 45)
+
+[node name="BuyNoAdsBtn" type="Button" parent="VBoxContainer/ShopPanel/VBoxContainer3"]
+layout_mode = 2
+text = "Buy Permanent No Ads"
+custom_minimum_size = Vector2(0, 45)
+
+[node name="BuySwordBtn" type="Button" parent="VBoxContainer/ShopPanel/VBoxContainer3"]
+layout_mode = 2
+text = "Buy Legendary Sword"
+custom_minimum_size = Vector2(0, 45)
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ResetBtn" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Reset Data"
+custom_minimum_size = Vector2(0, 45)
+
+[node name="MessageDialog" type="AcceptDialog" parent="."]
+title = "Message"
+dialog_text = "Message"
+
+[node name="SuccessDialog" type="AcceptDialog" parent="."]
+title = "Success"
+dialog_text = "Item received!"
+unresizable = false
+min_size = Vector2(300, 150)

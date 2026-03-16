@@ -1,0 +1,5 @@
+sku_id,sku_name,sku_price,sku_type,provider,status
+com.example.coin_pack100,100金币包,0.99,consumable,google,active
+com.example.coin_pack500,500金币包,4.99,consumable,google,active
+com.example.remove_ads,移除广告,2.99,non_consumable,apple,active
+com.example.premium_monthly,高级会员月订阅,9.99,subscription,huawei,active

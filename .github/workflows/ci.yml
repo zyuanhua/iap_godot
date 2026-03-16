@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Set up Godot
+      uses: firebelley/godot-action@v1
+      with:
+        godot_version: '4.2.1'
+        
+    - name: Validate GDScript syntax
+      run: |
+        # 检查GDScript语法
+        find . -name "*.gd" -exec godot --check-only --script {} \;
+        
+    - name: Validate JSON files
+      run: |
+        # 检查JSON文件格式
+        find . -name "*.json" -exec python -m json.tool {} > /dev/null \;
+        
+    - name: Check file structure
+      run: |
+        # 验证项目结构
+        if [ ! -f "addons/google_iap/plugin.cfg" ]; then
+          echo "Error: plugin.cfg not found"
+          exit 1
+        fi
+        
+    - name: Run basic validation
+      run: |
+        # 运行基本验证脚本
+        python tools/validate_project.py
+        
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Create release package
+      run: |
+        # 创建发布包
+        mkdir -p dist
+        zip -r dist/google-iap-ultimate-$(date +%Y%m%d).zip addons/google_iap/ README.md LICENSE
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: google-iap-ultimate
+        path: dist/

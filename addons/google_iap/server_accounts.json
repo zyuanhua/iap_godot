@@ -1,0 +1,46 @@
+{
+	"accounts": [
+		{
+			"apple": {
+				"bundle_id": "",
+				"issuer_id": "",
+				"key_id": "",
+				"key_path": ""
+			},
+			"custom": {
+				"url": ""
+			},
+			"google": {
+				"key_path": "",
+				"package_name": ""
+			},
+			"huawei": {
+				"api_key": "",
+				"app_id": ""
+			},
+			"name": "默认账户",
+			"provider": "Google Play"
+		},
+		{
+			"apple": {
+				"bundle_id": "",
+				"issuer_id": "",
+				"key_id": "",
+				"key_path": ""
+			},
+			"custom": {
+				"url": ""
+			},
+			"google": {
+				"key_path": "D:/work/trae/sku2_list.json",
+				"package_name": "dd"
+			},
+			"huawei": {
+				"api_key": "",
+				"app_id": ""
+			},
+			"name": "h",
+			"provider": "Google Play"
+		}
+	]
+}

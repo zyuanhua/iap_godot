@@ -1,0 +1,98 @@
+[
+  {
+    "provider": "google",
+    "sku_id": "com.game.coin100",
+    "sku_name": "100 Coins",
+    "sku_price": 0.99,
+    "sku_type": "consumable",
+    "status": "active"
+  },
+  {
+    "provider": "google",
+    "sku_id": "com.game.coin500",
+    "sku_name": "500 Coins",
+    "sku_price": 4.99,
+    "sku_type": "consumable",
+    "status": "active"
+  },
+  {
+    "provider": "google",
+    "sku_id": "com.game.coin1000",
+    "sku_name": "1000 Coins",
+    "sku_price": 9.99,
+    "sku_type": "consumable",
+    "status": "active"
+  },
+  {
+    "provider": "apple",
+    "sku_id": "com.game.premium_monthly",
+    "sku_name": "Premium Monthly",
+    "sku_price": 4.99,
+    "sku_type": "consumable",
+    "status": "active"
+  },
+  {
+    "provider": "apple",
+    "sku_id": "com.game.premium_yearly",
+    "sku_name": "Premium Yearly",
+    "sku_price": 49.99,
+    "sku_type": "consumable",
+    "status": "active"
+  },
+  {
+    "provider": "google",
+    "sku_id": "com.game.remove_ads",
+    "sku_name": "Remove Ads",
+    "sku_price": 2.99,
+    "sku_type": "consumable",
+    "status": "active"
+  },
+  {
+    "provider": "huawei",
+    "sku_id": "com.game.starter_pack",
+    "sku_name": "Starter Pack",
+    "sku_price": 1.99,
+    "sku_type": "consumable",
+    "status": "active"
+  },
+  {
+    "provider": "huawei",
+    "sku_id": "com.game.hero_bundle",
+    "sku_name": "Hero Bundle",
+    "sku_price": 14.99,
+    "sku_type": "consumable",
+    "status": "active"
+  },
+  {
+    "provider": "apple",
+    "sku_id": "com.game.vip_pass",
+    "sku_name": "VIP Pass",
+    "sku_price": 9.99,
+    "sku_type": "consumable",
+    "status": "active"
+  },
+  {
+    "provider": "google",
+    "sku_id": "com.game.gems50",
+    "sku_name": "50 Gems",
+    "sku_price": 0.99,
+    "sku_type": "consumable",
+    "status": "active"
+  },
+  {
+    "provider": "huawei",
+    "sku_id": "com.game.gems200",
+    "sku_name": "200 Gems",
+    "sku_price": 3.99,
+    "sku_type": "consumable",
+    "status": "active"
+  },
+  {
+    "provider": "apple",
+    "sku_id": "com.game.special_offer",
+    "sku_name": "Special Offer",
+    "sku_price": 0.49,
+    "sku_type": "consumable",
+    "status": "active"
+  }
+]
