@@ -1,0 +1,204 @@
+{
+  "project": "Google IAP Ultimate",
+  "version": "6.0.0",
+  "generated_at": "2026-03-16T17:51:21.688087",
+  "total_files": 39,
+  "processed_files": 39,
+  "file_hashes": {
+    "project.godot": {
+      "size": 1047,
+      "modified_time": "2026-03-16T17:50:35.661632",
+      "hash": "34f97cfecb3514b416c2d9eea858059cee6f5c5b187c13d8580b76ac4ab9ccb6"
+    },
+    "README.md": {
+      "size": 12492,
+      "modified_time": "2026-03-16T17:29:55.186333",
+      "hash": "d25385b14f11ae8bc4bcbbaf4b93ff50365669ebcb774e63f3afc4424832658e"
+    },
+    "README_EN.md": {
+      "size": 10392,
+      "modified_time": "2026-03-16T15:37:57.503057",
+      "hash": "cd3dd661578fbeeb96336968ef6d906c19c42f329c6366e4efd35810a07944fa"
+    },
+    "LICENSE": {
+      "size": 1084,
+      "modified_time": "2026-03-16T15:53:01.280034",
+      "hash": "171ed4d10cb5443a7417a7062c21c7ea9ef1b9976bbd3a63966ebd707d6e07d0"
+    },
+    "addons/google_iap/plugin.cfg": {
+      "size": 732,
+      "modified_time": "2026-03-16T17:38:56.607516",
+      "hash": "34e3d91ddbec21f27d9548e0fec2c6fdb3b105eb147915e81abba1e591799ac8"
+    },
+    "addons/google_iap/GoogleIAP.gd": {
+      "size": 37500,
+      "modified_time": "2026-03-13T15:45:28.162619",
+      "hash": "d4e04de360f668700b653cfd76b1ff5a7546192ea7afa5d4e7f1d57f05335de0"
+    },
+    "addons/google_iap/GoogleIAPEditorPlugin.gd": {
+      "size": 1524,
+      "modified_time": "2026-03-14T18:01:14.607273",
+      "hash": "4d15b0648522c61a35ad60a43b8ddb3b43d0e922afd277fbd7306c415566d198"
+    },
+    "addons/google_iap/GoogleIAPConfigPanel.gd": {
+      "size": 108168,
+      "modified_time": "2026-03-15T22:58:35.709370",
+      "hash": "7b383bd3409eb4fdaae4b49f85af288060c4d4fa8fc4cf41b1406c6bb4e5cb5c"
+    },
+    "addons/google_iap/GoogleIAPConfigPanel.tscn": {
+      "size": 41659,
+      "modified_time": "2026-03-15T22:52:26.953743",
+      "hash": "b9c199071eab4a429fa2587344f4be73504d3316185b728893e8964446bfb499"
+    },
+    "addons/google_iap/GoogleIAPLicense.gd": {
+      "size": 5946,
+      "modified_time": "2026-03-11T11:11:12.562656",
+      "hash": "09645d67e5fadae5a4ba1fb53f632b4383dc74d1eba85d22a613823776c41e89"
+    },
+    "addons/google_iap/ResizableTree.gd": {
+      "size": 2921,
+      "modified_time": "2026-03-15T00:03:36.304043",
+      "hash": "b73086cabba695dbc76470fe51b6b8972ea4db0ef8ac15f364b6d9a3dbcd7162"
+    },
+    "addons/google_iap/config.json": {
+      "size": 234,
+      "modified_time": "2026-03-14T14:10:44.425954",
+      "hash": "3411dfd054891dbdb27f4975261d4f676b385ce024a6ecf637844e25febc0ee8"
+    },
+    "addons/google_iap/iap_config.json": {
+      "size": 22,
+      "modified_time": "2026-03-14T03:45:30.697278",
+      "hash": "57bef7be28efa8199d9ca7aa8a39f7f9c57bbea8cf69da8b6719cfce1800cb25"
+    },
+    "addons/google_iap/server_accounts.json": {
+      "size": 678,
+      "modified_time": "2026-03-13T16:06:27.418582",
+      "hash": "557cc1fa1b4ab65ccba1da24c3ba8dcc90b78a9dd9e22db40b466b2f29c97b0b"
+    },
+    "addons/google_iap/sku_database.json": {
+      "size": 2140,
+      "modified_time": "2026-03-14T21:20:29.268326",
+      "hash": "61732d54003cb8340e65cc082afae7d0db2f15540aead89659357296213b914d"
+    },
+    "addons/google_iap/user_configs.json": {
+      "size": 593,
+      "modified_time": "2026-03-14T15:53:10.182931",
+      "hash": "d7e469447bba305c8d644cc57475a5111d92f5427496527388aa38a236da989c"
+    },
+    "addons/google_iap/column_widths.json": {
+      "size": 50,
+      "modified_time": "2026-03-15T00:09:36.121856",
+      "hash": "eada818cff1c303e9f9634f3de153fc6bdfb31261877f38248fd72c5acb2ab17"
+    },
+    "addons/google_iap/settings.cfg": {
+      "size": 26,
+      "modified_time": "2026-03-14T23:54:35.750420",
+      "hash": "5ef08604c97721e20d4af25c130c6c9f2e30ff00dfd976dff500d9b2937b8b62"
+    },
+    "addons/google_iap/locales/en.json": {
+      "size": 12560,
+      "modified_time": "2026-03-15T23:00:42.408777",
+      "hash": "178a6c528b57baf174cc4ee6d7a4589cfeab5a873ba163ef3bf1e2b07b933da4"
+    },
+    "addons/google_iap/locales/zh.json": {
+      "size": 12523,
+      "modified_time": "2026-03-15T22:59:46.281979",
+      "hash": "cc3a9ff99d1d8a32b25c0c5671e14d885b40de304ebd9c80b8bd96ad7adf79d0"
+    },
+    "icon.svg": {
+      "size": 2358,
+      "modified_time": "2026-03-16T17:28:50.179403",
+      "hash": "5951e1192b40c1a40053c8ed54349658f386d63c74b7a3a2e94a884dbe3cb25a"
+    },
+    "icon.png": {
+      "size": 30784,
+      "modified_time": "2026-03-16T17:35:47.480177",
+      "hash": "83b52cd03d2865ad59b39556ccf0dd39d6047d3149f9b419c684689ec2bccb2a"
+    },
+    "github_icon.svg": {
+      "size": 1513,
+      "modified_time": "2026-03-16T17:29:26.443947",
+      "hash": "16c2321406ad0f9438636cd84f92237a2786cc66884b5e592ee8816d45d97517"
+    },
+    "rabbit_icon.svg": {
+      "size": 1969,
+      "modified_time": "2026-03-16T17:28:07.668718",
+      "hash": "2416e77066ed92c4331cd072aaedc81bda41851877f8fb7991ec245f53fb6a36"
+    },
+    "tools/validate_godot_project.py": {
+      "size": 6863,
+      "modified_time": "2026-03-16T17:42:10.681844",
+      "hash": "33651740158d9d46b3231ecff40d969936fcbd638ca8c1a385b4900d844bd351"
+    },
+    "tools/convert_svg_to_png.py": {
+      "size": 4049,
+      "modified_time": "2026-03-16T17:32:54.703782",
+      "hash": "29903c6aa2d96406db2d9c2e90c7eebfb59ca2c69972edd99da496fbd8c359bd"
+    },
+    "tools/generate_hashes.py": {
+      "size": 7856,
+      "modified_time": "2026-03-16T17:51:10.651035",
+      "hash": "8a59e889f22540e394e3094881ace8295370af52001823e8fbec084609f5c59d"
+    },
+    ".github/workflows/ci.yml": {
+      "size": 1470,
+      "modified_time": "2026-03-16T15:55:33.227664",
+      "hash": "a8faccff50d8c9ce3f779738146d8c98eb77a4be7f46f7b9c998bedf90e4fb4a"
+    },
+    ".github/ISSUE_TEMPLATE/bug_report.md": {
+      "size": 592,
+      "modified_time": "2026-03-16T15:23:47.428335",
+      "hash": "06bfdfb49d52b3413e1de3c64a6986e74c5f1d41af478e999ea81c09ee467394"
+    },
+    ".github/ISSUE_TEMPLATE/feature_request.md": {
+      "size": 573,
+      "modified_time": "2026-03-16T15:25:11.999501",
+      "hash": "dc7643fb7eebcc38e95580a31a61c775ae07db965cec588c8d8b60851a0c22c7"
+    },
+    ".github/PULL_REQUEST_TEMPLATE.md": {
+      "size": 704,
+      "modified_time": "2026-03-16T15:53:35.686176",
+      "hash": "e6d923447d14f54f3caa2298b0c8b678c11643eb4444d4e2bdbb666737b29e52"
+    },
+    ".github/CODE_OF_CONDUCT.md": {
+      "size": 2074,
+      "modified_time": "2026-03-16T15:54:02.712209",
+      "hash": "e5dd5b6c2f1c53f1414d017c7ab5a7d294371c2deffd66d2089eba4f9da40fc5"
+    },
+    ".github/FUNDING.yml": {
+      "size": 590,
+      "modified_time": "2026-03-16T15:54:24.389802",
+      "hash": "cf36c93b24a43569a835c6446d2a175b729fcc0512fa44885db039e27bcdffa7"
+    },
+    "ARCHITECTURE.md": {
+      "size": 8198,
+      "modified_time": "2026-03-16T15:38:35.624753",
+      "hash": "003d28b8e92b08f56832316ad19ac50ebdd5395f59c4ef43ccbceec68004dcc4"
+    },
+    "AUTHORS.md": {
+      "size": 4400,
+      "modified_time": "2026-03-16T15:32:42.108390",
+      "hash": "f412fe4571c9e5dbb0b7ef0db8aff0f7505446d8ce9b49cf9a2a768bc7065f3b"
+    },
+    "CONTRIBUTING.md": {
+      "size": 4909,
+      "modified_time": "2026-03-16T15:39:12.727643",
+      "hash": "b8b200c80edfcab342498418cdb5f8fedf1beaa4b43abf8207c4e4300e5f84c3"
+    },
+    "CONTRIBUTING_EN.md": {
+      "size": 5827,
+      "modified_time": "2026-03-16T15:39:36.363371",
+      "hash": "6fab513f2fb3e479eb5e39d56691dad74b62c5d1bc896a5321091c1fdbac56a5"
+    },
+    "TECHNICAL_SPECIFICATION.md": {
+      "size": 15315,
+      "modified_time": "2026-03-16T15:38:57.078465",
+      "hash": "5c31d9a042f7e9f206268b3ab32351e4e29573a4382384443a908c7901f6ac7b"
+    },
+    "FAQ.md": {
+      "size": 8780,
+      "modified_time": "2026-03-10T19:30:50.131878",
+      "hash": "a3ec8980586627f1c68dd5cfa18a8a62186d6a0f9594582436457dd7f3eb9e98"
+    }
+  }
+}
