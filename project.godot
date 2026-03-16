@@ -1,0 +1,49 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
+[application]
+
+config/name="Google IAP Ultimate"
+config/description="A fully compatible Godot 4.0~4.7 plugin supporting Google Play Billing Library 6+"
+config/features=PackedStringArray("4.6")
+config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_height=700
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/google_iap/plugin.cfg")
+
+[graphics]
+
+rendering/rendering_device/vulkan/rendering/back_end=1
+
+[locale]
+
+translations=PackedStringArray("res://addons/google_iap/locales/en.json", "res://addons/google_iap/locales/zh.json")
+
+[physics]
+
+2d/physics_engine/run_on_separate_thread=true
+
+[system]
+
+project_settings/override_configuration_warning=true
+
+[window]
+
+size/width=1152
+size/height=700
