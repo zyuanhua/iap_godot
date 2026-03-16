@@ -1,51 +1,99 @@
-# Google IAP Ultimate - 商用终极版
+# Google IAP Ultimate - 商用终极版 / Commercial Edition
+
+<div align="center">
 
 [![Godot Engine](https://img.shields.io/badge/Godot-4.0--4.7-%23478cbf?logo=godot-engine)](https://godotengine.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Android-%233DDC84?logo=android)](https://developer.android.com)
 [![IAP Version](https://img.shields.io/badge/Google%20Play%20Billing-6.0%2B-blue)](https://developer.android.com/google/play/billing)
+[![中文文档](https://img.shields.io/badge/文档-中文-blue)](README.md)
+[![English Docs](https://img.shields.io/badge/Docs-English-green)](README_EN.md)
 
+</div>
+
+## 🌍 多语言支持 / Multi-language Support
+
+**中文** | [English](README_EN.md)
+
+---
+
+### 🇨🇳 中文说明
 支持 Google Play Billing Library 6+ 的 Godot 4.0~4.7 全兼容插件，集成可视化UI配置、自动代码生成、一键CSV导出、智能道具发放、防作弊服务端验单，5分钟上手，零门槛商用。
 
-## 🎯 项目特色
+### 🇺🇸 English Description
+A fully compatible Godot 4.0~4.7 plugin supporting Google Play Billing Library 6+, featuring visual UI configuration, automatic code generation, one-click CSV export, intelligent item granting, and anti-cheat server-side verification. Get started in 5 minutes with zero commercial barriers.
 
-### ✨ 核心优势
+## 🎯 项目特色 / Project Features
+
+### ✨ 核心优势 / Core Advantages
+
+**🇨🇳 中文**
 - **🚀 5分钟快速集成** - 开箱即用，零配置门槛
 - **🔄 全版本兼容** - 完美支持 Godot 4.0~4.7 所有版本
 - **🎨 可视化配置** - 拖拽式UI面板，无需编写代码
 - **🔒 企业级安全** - 完整的防作弊和服务端验单机制
 - **📊 数据分析** - 多平台销售数据报告集成
 
-### 🛠️ 功能特性
+**🇺🇸 English**
+- **🚀 5-Minute Integration** - Out-of-the-box, zero configuration barrier
+- **🔄 Full Version Compatibility** - Perfect support for all Godot 4.0~4.7 versions
+- **🎨 Visual Configuration** - Drag-and-drop UI panel, no coding required
+- **🔒 Enterprise-Grade Security** - Complete anti-cheat and server-side verification mechanisms
+- **📊 Data Analytics** - Multi-platform sales data report integration
 
-| 功能模块 | 描述 | 状态 |
-|---------|------|------|
-| **SKU管理** | 可视化商品管理，支持多服务商 | ✅ 完整 |
-| **计费服务** | Google Play Billing 6+ 集成 | ✅ 稳定 |
-| **服务端配置** | 多账户、多环境配置管理 | ✅ 完善 |
-| **验单测试** | 防作弊服务端验证工具 | ✅ 强大 |
-| **数据分析** | 平台销售报告集成 | ✅ 专业 |
-| **多语言支持** | 中英文界面本地化 | ✅ 完整 |
+### 🛠️ 功能特性 / Feature Overview
 
-## 📦 快速开始
+| 功能模块 / Module | 描述 / Description | 状态 / Status |
+|------------------|-------------------|---------------|
+| **SKU管理** / SKU Management | 可视化商品管理，支持多服务商 / Visual product management with multi-vendor support | ✅ 完整 / Complete |
+| **计费服务** / Billing Service | Google Play Billing 6+ 集成 / Google Play Billing 6+ integration | ✅ 稳定 / Stable |
+| **服务端配置** / Server Configuration | 多账户、多环境配置管理 / Multi-account, multi-environment configuration management | ✅ 完善 / Comprehensive |
+| **验单测试** / Verification Testing | 防作弊服务端验证工具 / Anti-cheat server-side verification tools | ✅ 强大 / Powerful |
+| **数据分析** / Data Analytics | 平台销售报告集成 / Platform sales report integration | ✅ 专业 / Professional |
+| **多语言支持** / Multi-language Support | 中英文界面本地化 / Chinese and English interface localization | ✅ 完整 / Complete |
 
-### 环境要求
+## 📦 快速开始 / Quick Start
+
+### 环境要求 / Environment Requirements
+
+**🇨🇳 中文**
 - **Godot Engine**: 4.0 ~ 4.7
 - **Android SDK**: API Level 21+
 - **Google Play Console**: 有效的开发者账号
 
-### 安装步骤
+**🇺🇸 English**
+- **Godot Engine**: 4.0 ~ 4.7
+- **Android SDK**: API Level 21+
+- **Google Play Console**: Valid developer account
+
+### 安装步骤 / Installation Steps
+
+**🇨🇳 中文**
 
 1. **下载插件**
    ```bash
    # 从GitHub Releases下载最新版本
    # 或直接克隆仓库
-   git clone https://github.com/your-repo/google-iap-ultimate.git
+   git clone https://github.com/zyuanhua/iap_godot.git
    ```
 
 2. **安装到项目**
    ```
    将 addons/google_iap 文件夹复制到您的 Godot 项目的 addons 目录
+   ```
+
+**🇺🇸 English**
+
+1. **Download Plugin**
+   ```bash
+   # Download latest version from GitHub Releases
+   # Or clone repository directly
+   git clone https://github.com/zyuanhua/iap_godot.git
+   ```
+
+2. **Install to Project**
+   ```
+   Copy addons/google_iap folder to your Godot project's addons directory
    ```
 
 3. **启用插件**
@@ -59,8 +107,22 @@
    在Google Play Console中设置应用和商品
    ```
 
-### 基础使用
+**🇺🇸 English**
 
+3. **Enable Plugin**
+   ```
+   Project → Project Settings → Plugins → Enable "Google IAP Ultimate"
+   ```
+
+4. **Configure Android**
+   ```
+   Ensure Android export template is properly configured
+   Set up app and products in Google Play Console
+   ```
+
+### 基础使用 / Basic Usage
+
+**🇨🇳 中文示例**
 ```gdscript
 # 最简单的IAP调用示例
 extends Node
@@ -81,6 +143,29 @@ func _on_purchase_button_pressed():
 func _on_iap_purchase_success(product_id: String, receipt: String):
     print("购买成功:", product_id)
     # 发放道具逻辑...
+```
+
+**🇺🇸 English Example**
+```gdscript
+# Simplest IAP call example
+extends Node
+
+func _ready():
+    # Initialize IAP service
+    if GoogleIAP.init():
+        print("IAP service initialized successfully")
+    
+    # Query product information
+    GoogleIAP.query_products(["product_id_1", "product_id_2"])
+
+# Purchase product
+func _on_purchase_button_pressed():
+    GoogleIAP.purchase("product_id_1")
+
+# Handle purchase result
+func _on_iap_purchase_success(product_id: String, receipt: String):
+    print("Purchase successful:", product_id)
+    # Item granting logic...
 ```
 
 ## 🏗️ 架构设计
