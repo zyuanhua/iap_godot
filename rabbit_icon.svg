@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- 兔子头部 -->
+  <ellipse cx="64" cy="64" rx="40" ry="35" fill="#FF6B9D" stroke="#D94A7A" stroke-width="2"/>
+  
+  <!-- 左耳朵 -->
+  <ellipse cx="48" cy="30" rx="8" ry="20" fill="#FF6B9D" stroke="#D94A7A" stroke-width="2" transform="rotate(-15 48 30)"/>
+  <ellipse cx="48" cy="30" rx="6" ry="15" fill="#FFB6C1" transform="rotate(-15 48 30)"/>
+  
+  <!-- 右耳朵 -->
+  <ellipse cx="80" cy="30" rx="8" ry="20" fill="#FF6B9D" stroke="#D94A7A" stroke-width="2" transform="rotate(15 80 30)"/>
+  <ellipse cx="80" cy="30" rx="6" ry="15" fill="#FFB6C1" transform="rotate(15 80 30)"/>
+  
+  <!-- 左眼睛 -->
+  <circle cx="52" cy="58" r="6" fill="#2C3E50"/>
+  <circle cx="50" cy="56" r="2" fill="white"/>
+  
+  <!-- 右眼睛 -->
+  <circle cx="76" cy="58" r="6" fill="#2C3E50"/>
+  <circle cx="74" cy="56" r="2" fill="white"/>
+  
+  <!-- 鼻子 -->
+  <circle cx="64" cy="68" r="4" fill="#D94A7A"/>
+  
+  <!-- 嘴巴 -->
+  <path d="M58 78 Q64 82 70 78" stroke="#D94A7A" stroke-width="2" fill="none"/>
+  
+  <!-- 胡须 -->
+  <path d="M50 72 L42 70" stroke="#D94A7A" stroke-width="1.5"/>
+  <path d="M50 74 L42 74" stroke="#D94A7A" stroke-width="1.5"/>
+  <path d="M50 76 L42 78" stroke="#D94A7A" stroke-width="1.5"/>
+  <path d="M78 72 L86 70" stroke="#D94A7A" stroke-width="1.5"/>
+  <path d="M78 74 L86 74" stroke="#D94A7A" stroke-width="1.5"/>
+  <path d="M78 76 L86 78" stroke="#D94A7A" stroke-width="1.5"/>
+  
+  <!-- 胡萝卜（代表IAP） -->
+  <ellipse cx="90" cy="90" rx="12" ry="6" fill="#FF8C42" transform="rotate(45 90 90)"/>
+  <path d="M96 84 L102 80" stroke="#7CFC00" stroke-width="3" stroke-linecap="round"/>
+  <path d="M98 88 L104 86" stroke="#7CFC00" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- 装饰性星星 -->
+  <path d="M30 90 L32 94 L36 94 L33 97 L34 101 L30 99 L26 101 L27 97 L24 94 L28 94 Z" fill="#FFD700"/>
+</svg>

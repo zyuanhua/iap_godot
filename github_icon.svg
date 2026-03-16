@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆形 -->
+  <circle cx="64" cy="64" r="60" fill="#478CBF" stroke="#2C5F8A" stroke-width="2"/>
+  
+  <!-- 兔子头部 -->
+  <ellipse cx="64" cy="64" rx="30" ry="28" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="2"/>
+  
+  <!-- 左耳朵 -->
+  <ellipse cx="50" cy="30" rx="6" ry="15" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="2" transform="rotate(-15 50 30)"/>
+  <ellipse cx="50" cy="30" rx="4" ry="11" fill="#FFB6C1" transform="rotate(-15 50 30)"/>
+  
+  <!-- 右耳朵 -->
+  <ellipse cx="78" cy="30" rx="6" ry="15" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="2" transform="rotate(15 78 30)"/>
+  <ellipse cx="78" cy="30" rx="4" ry="11" fill="#FFB6C1" transform="rotate(15 78 30)"/>
+  
+  <!-- 左眼睛 -->
+  <circle cx="54" cy="60" r="5" fill="#2C3E50"/>
+  <circle cx="52" cy="58" r="1.5" fill="white"/>
+  
+  <!-- 右眼睛 -->
+  <circle cx="74" cy="60" r="5" fill="#2C3E50"/>
+  <circle cx="72" cy="58" r="1.5" fill="white"/>
+  
+  <!-- 鼻子 -->
+  <circle cx="64" cy="70" r="3" fill="#FF6B9D"/>
+  
+  <!-- 嘴巴 -->
+  <path d="M59 76 Q64 80 69 76" stroke="#FF6B9D" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- 金币符号 -->
+  <circle cx="90" cy="90" r="10" fill="#FFD700" stroke="#D4AF37" stroke-width="2"/>
+  <text x="90" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#8B6914">$</text>
+</svg>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆形 -->
+  <circle cx="128" cy="128" r="120" fill="#478CBF" stroke="#2C5F8A" stroke-width="4"/>
+  
+  <!-- 兔子头部 -->
+  <ellipse cx="128" cy="128" rx="60" ry="55" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="3"/>
+  
+  <!-- 左耳朵 -->
+  <ellipse cx="100" cy="60" rx="12" ry="30" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="3" transform="rotate(-15 100 60)"/>
+  <ellipse cx="100" cy="60" rx="8" ry="22" fill="#FFB6C1" transform="rotate(-15 100 60)"/>
+  
+  <!-- 右耳朵 -->
+  <ellipse cx="156" cy="60" rx="12" ry="30" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="3" transform="rotate(15 156 60)"/>
+  <ellipse cx="156" cy="60" rx="8" ry="22" fill="#FFB6C1" transform="rotate(15 156 60)"/>
+  
+  <!-- 左眼睛 -->
+  <circle cx="108" cy="120" r="10" fill="#2C3E50"/>
+  <circle cx="104" cy="116" r="3" fill="white"/>
+  
+  <!-- 右眼睛 -->
+  <circle cx="148" cy="120" r="10" fill="#2C3E50"/>
+  <circle cx="144" cy="116" r="3" fill="white"/>
+  
+  <!-- 鼻子 -->
+  <circle cx="128" cy="140" r="6" fill="#FF6B9D"/>
+  
+  <!-- 嘴巴 -->
+  <path d="M118 150 Q128 158 138 150" stroke="#FF6B9D" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- 胡须 -->
+  <path d="M110 144 L90 142" stroke="#FF6B9D" stroke-width="2" stroke-linecap="round"/>
+  <path d="M110 148 L90 148" stroke="#FF6B9D" stroke-width="2" stroke-linecap="round"/>
+  <path d="M110 152 L90 154" stroke="#FF6B9D" stroke-width="2" stroke-linecap="round"/>
+  <path d="M146 144 L166 142" stroke="#FF6B9D" stroke-width="2" stroke-linecap="round"/>
+  <path d="M146 148 L166 148" stroke="#FF6B9D" stroke-width="2" stroke-linecap="round"/>
+  <path d="M146 152 L166 154" stroke="#FF6B9D" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- 金币（代表IAP） -->
+  <circle cx="180" cy="180" r="20" fill="#FFD700" stroke="#D4AF37" stroke-width="3"/>
+  <circle cx="180" cy="180" r="15" fill="#FFE55C" stroke="#D4AF37" stroke-width="2"/>
+  <text x="180" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#8B6914">$</text>
+  
+  <!-- 项目名称 -->
+  <text x="128" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">IAP</text>
+</svg>

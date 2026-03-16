@@ -2,6 +2,8 @@
 
 <div align="center">
 
+![Rabbit IAP Icon](github_icon.svg)
+
 [![Godot Engine](https://img.shields.io/badge/Godot-4.0--4.7-%23478cbf?logo=godot-engine)](https://godotengine.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Android-%233DDC84?logo=android)](https://developer.android.com)
